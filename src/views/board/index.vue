@@ -1,100 +1,113 @@
 <template>
   <div class="container">
-    <div class="top">
-      <div class="left box box1">
-        <div class="top-list-box">
-          <div class="item">
-            <div class="value">{{numberComma(112233)}}</div>
-            <div class="text">设备数量（台）</div>
-          </div>
-          <div class="item">
-            <div class="value">{{numberComma(22314.34)}}</div>
-            <div class="text">设备金额（万元）</div>
-          </div>
-          <div class="item">
-            <div class="value">33.44%</div>
-            <div class="text">折旧率</div>
-          </div>
-          <div class="item">
-            <div class="value">{{numberComma(123)}}</div>
-            <div class="text">当年服务人次</div>
-          </div>
-        </div>
-        <div class="chart1-box">
-          <div class="list-box1">
-            <div class="list">
-              <div class="total">
-                <div class="value">{{numberComma(22608.09)}}</div>
-                <div class="text">总收入（万元）</div>
-              </div>
-              <div class="status up">
-                <div class="value">
-                  <span>23.45%</span>
-                  <span class="iconfont icon-shang"></span>
-                </div>
-                <div class="text">
-                  同比
-                </div>
-              </div>
-            </div>
-            <div class="list">
-              <div class="total">
-                <div class="value">{{numberComma(99999.09)}}</div>
-                <div class="text">总支出（万元）</div>
-              </div>
-              <div class="status down">
-                <div class="value">
-                  <span>23.45%</span>
-                  <span class="iconfont icon-shang"></span>
-                </div>
-                <div class="text">
-                  同比
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="chart1"></div>
-        </div>
+    <div class="header">
+      <div class="name">
+        <span>LOGO</span>
+        <span style="margin-left: 20px">xx医院医疗设备托管系统</span>
       </div>
-      <div class="right box box2">
-        <div class="nav">
-          <div class="nav-item"
-               :class="'nav-item-'+key"
-               v-for="(item,key) of navList"
-               :key="key"
-               @click="list2=item.list">
-            <div class="iconfont" :class="item.icon"></div>
-            <div class="text">{{item.name}}</div>
+      <div class="time">
+        2019/01/01 周三 17:00:00
+      </div>
+
+    </div>
+    <div class="content">
+      <div class="top">
+        <div class="left box box1">
+          <div class="top-list-box">
+            <div class="item">
+              <div class="value">{{numberComma(112233)}}</div>
+              <div class="text">设备数量（台）</div>
+            </div>
+            <div class="item">
+              <div class="value">{{numberComma(22314.34)}}</div>
+              <div class="text">设备金额（万元）</div>
+            </div>
+            <div class="item">
+              <div class="value">33.44%</div>
+              <div class="text">折旧率</div>
+            </div>
+            <div class="item">
+              <div class="value">{{numberComma(123)}}</div>
+              <div class="text">当年服务人次</div>
+            </div>
+          </div>
+          <div class="chart1-box">
+            <div class="list-box1">
+              <div class="list">
+                <div class="total">
+                  <div class="value">{{numberComma(22608.09)}}</div>
+                  <div class="text">总收入（万元）</div>
+                </div>
+                <div class="status up">
+                  <div class="value">
+                    <span>23.45%</span>
+                    <span class="iconfont icon-shang"></span>
+                  </div>
+                  <div class="text">
+                    同比
+                  </div>
+                </div>
+              </div>
+              <div class="list">
+                <div class="total">
+                  <div class="value">{{numberComma(99999.09)}}</div>
+                  <div class="text">总支出（万元）</div>
+                </div>
+                <div class="status down">
+                  <div class="value">
+                    <span>23.45%</span>
+                    <span class="iconfont icon-shang"></span>
+                  </div>
+                  <div class="text">
+                    同比
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="chart1"></div>
           </div>
         </div>
-        <div class="list">
-          <div class="li" v-for="(item,key) of list2" :key="key">
-            <span class="iconfont icon-jingbao"></span>
-            <span class="text elip" title="飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方">
+        <div class="right box box2">
+          <div class="nav">
+            <div class="nav-item"
+                 :class="'nav-item-'+key"
+                 v-for="(item,key) of navList"
+                 :key="key"
+                 @click="list2=item.list">
+              <div class="iconfont" :class="item.icon"></div>
+              <div class="text">{{item.name}}</div>
+            </div>
+          </div>
+          <div class="list">
+            <div class="li" v-for="(item,key) of list2" :key="key">
+              <span class="iconfont icon-jingbao"></span>
+              <span class="text elip" title="飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方">
               飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方
             </span>
-            <span class="time">2019-01-01 11:11:11</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="bottom">
-      <div class="left box box3">
-        <div id="chart3"></div>
-        <div class="list-box-container">
-          <div class="list-box3">
-            <div class="list" v-for="(item,key) of list3" :key="key">
-              <span class="index">{{key+1}}</span>
-              <span class="name elip" :title="item.name">{{item.name}}</span>
-              <span class="status" :class="{'err':item.status}">{{item.status?'待维修':'已完成'}}</span>
+              <span class="time">2019-01-01 11:11:11</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="right box box4">
-        <div id="chart4"></div>
+      <div class="bottom">
+        <div class="left box box3">
+          <div id="chart3"></div>
+          <div class="list-box-container">
+            <div class="list-box3">
+              <div class="list" v-for="(item,key) of list3" :key="key">
+                <span class="index">{{key+1}}</span>
+                <span class="name elip" :title="item.name">{{item.name}}</span>
+                <span class="status" :class="{'err':item.status}">{{item.status?'待维修':'已完成'}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right box box4">
+          <div id="chart4"></div>
+        </div>
       </div>
     </div>
+
   </div>
 </template>
 <script>
@@ -340,7 +353,7 @@
               lineStyle: {
                 // fill: 'red',
                 stroke: '#f2637b', // 线的颜色
-                lineDash: 0, // 虚线的设置
+                lineDash: null, // 虚线的设置
                 lineWidth: 1 // 线的宽度
               }, // 图形样式配置
 
@@ -600,7 +613,19 @@
             lineWidth: 18
           }
         });
-        // 绘制指标数字
+
+        // 绘制仪表盘刻度线
+        chart.guide().line({
+          // start: [3, 0.85],
+          start: [0, 0],
+          // end: [3.0035, 0.945],
+          end: [3.0035, 0.945],
+          lineStyle: {
+            stroke: 'red', // 线的颜色
+            lineDash: null, // 虚线的设置
+            lineWidth: 1
+          }
+        });
         chart.guide().html({
           position: ['50%', '95%'],
           html: '<div style="width: 300px;text-align: center;">' + '<p style="font-size: 20px; color: #545454;margin: 0;">合格率</p>' + '<p style="font-size: 36px;color: #545454;margin: 0;">' + data[0].value * 10 + '%</p>' + '</div>'
@@ -622,302 +647,326 @@
     min-width: 1200px;
     width: 100%;
     height: 100%;
-    padding: 5px;
     background: #d9e9f9;
     overflow: hidden;
 
-    .top, .bottom {
+    .header {
+      height: 50px;
       width: 100%;
-      height: 55%;
       display: flex;
+      align-items: center;
+      color: #fff;
+      background: linear-gradient(to right, #5579c4, #7accc6);
+      padding: 0 20px;
+      justify-content: space-between;
+      .name {
 
-      .left {
-        width: 55%;
       }
+      .time {
 
-      .right {
-        width: 45%;
       }
+    }
 
-      .box {
-        background: #fff;
-        margin: 5px;
-        border-radius: 2px;
-      }
+    .content {
+      padding: 5px;
+      width: 100%;
+      height: calc(100% - 50px);
 
-      .box1 {
+      .top, .bottom {
+        width: 100%;
+        height: 55%;
         display: flex;
-        flex-direction: column;
 
-        .top-list-box {
-          background: #d9e9f9;
+        .left {
+          width: 55%;
+        }
+
+        .right {
+          width: 45%;
+        }
+
+        .box {
+          background: #fff;
+          margin: 5px;
+          border-radius: 2px;
+        }
+
+        .box1 {
           display: flex;
-          padding-bottom: 10px;
+          flex-direction: column;
 
-          .item {
-            background: #fff;
-            border-radius: 2px;
-            height: 80px;
-            flex: 1;
-            margin-right: 10px;
-            padding: 15px 0 15px 10px;
+          .top-list-box {
+            background: #d9e9f9;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            padding-bottom: 10px;
 
-            .value {
-              color: #5373a9;
-              font-size: 24px;
-              font-weight: bolder;
-            }
-
-            .text {
-
-            }
-
-            &:last-of-type {
-              margin-right: 0;
-            }
-          }
-        }
-
-        .chart1-box {
-          flex: 1;
-          padding: 10px 0;
-          position: relative;
-
-          .list-box1 {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            display: flex;
-
-            .list {
-              display: flex;
-              align-items: baseline;
-              margin-left: 20px;
-
-              .total {
-                margin-right: 10px;
-
-                .value {
-                  font-weight: bold;
-                  font-size: 20px;
-                }
-
-                .text {
-
-                }
-              }
-
-              .status {
-
-
-                .value {
-                  font-weight: bold;
-                  font-size: 20px;
-                  display: flex;
-                  align-items: baseline;
-
-                  .iconfont {
-                    font-size: 24px;
-                  }
-                }
-
-                .text {
-                  color: #000;
-
-                }
-
-                &.up {
-                  color: #E64340;
-                }
-
-                &.down {
-                  color: #3eaf7c;
-
-                  .iconfont {
-                    transform: rotate(180deg);
-                  }
-                }
-              }
-            }
-          }
-
-          #chart1 {
-            width: 100%;
-            height: 100%;
-          }
-        }
-      }
-
-      .box2 {
-        position: relative;
-
-        .nav {
-          display: flex;
-          padding: 10px;
-          justify-content: space-between;
-
-          .nav-item {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            border-radius: 10px;
-            cursor: pointer;
-            background-color: #d9e9f9;
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px 0;
-            justify-content: space-between;
-
-            &:hover {
-              box-shadow: 0px 0px 6px #aaa;
-            }
-
-            .iconfont {
-              font-size: 36px;
-              color: #5a81c4;
-            }
-
-            .text {
-              font-weight: bold;
-            }
-          }
-        }
-
-        .list {
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: 140px;
-          bottom: 20px;
-          overflow-y: auto;
-          padding: 0 40px;
-          font-size: 16px;
-
-          .li {
-            display: flex;
-            margin-bottom: 15px;
-
-            &:last-of-type {
-              margin-bottom: 0;
-            }
-
-            .iconfont {
-              color: #FF6633;
-              margin-right: 5px;
-              font-weight: bold;
-            }
-
-            .text {
+            .item {
+              background: #fff;
+              border-radius: 2px;
+              height: 80px;
               flex: 1;
               margin-right: 10px;
+              padding: 15px 0 15px 10px;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+
+              .value {
+                color: #5373a9;
+                font-size: 24px;
+                font-weight: bolder;
+              }
+
+              .text {
+
+              }
+
+              &:last-of-type {
+                margin-right: 0;
+              }
+            }
+          }
+
+          .chart1-box {
+            flex: 1;
+            padding: 10px 0;
+            position: relative;
+
+            .list-box1 {
+              position: absolute;
+              right: 10px;
+              top: 10px;
+              display: flex;
+
+              .list {
+                display: flex;
+                align-items: baseline;
+                margin-left: 20px;
+
+                .total {
+                  margin-right: 10px;
+
+                  .value {
+                    font-weight: bold;
+                    font-size: 20px;
+                  }
+
+                  .text {
+
+                  }
+                }
+
+                .status {
+
+
+                  .value {
+                    font-weight: bold;
+                    font-size: 20px;
+                    display: flex;
+                    align-items: baseline;
+
+                    .iconfont {
+                      font-size: 24px;
+                    }
+                  }
+
+                  .text {
+                    color: #000;
+
+                  }
+
+                  &.up {
+                    color: #E64340;
+                  }
+
+                  &.down {
+                    color: #3eaf7c;
+
+                    .iconfont {
+                      transform: rotate(180deg);
+                    }
+                  }
+                }
+              }
             }
 
-            .time {
-              font-size: 14px;
-              color: #888;
+            #chart1 {
+              width: 100%;
+              height: 100%;
             }
           }
         }
-      }
 
-      .box3 {
-        display: flex;
+        .box2 {
+          position: relative;
 
-        #chart3 {
-          width: 40%;
-          height: 100%;
+          .nav {
+            display: flex;
+            padding: 10px;
+            justify-content: space-between;
+
+            .nav-item {
+              position: relative;
+              width: 100px;
+              height: 100px;
+              border-radius: 10px;
+              cursor: pointer;
+              background-color: #d9e9f9;
+              margin: 10px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              padding: 15px 0;
+              justify-content: space-between;
+
+              &:hover {
+                box-shadow: 0px 0px 6px #aaa;
+              }
+
+              .iconfont {
+                font-size: 36px;
+                color: #5a81c4;
+              }
+
+              .text {
+                font-weight: bold;
+              }
+            }
+          }
+
+          .list {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 140px;
+            bottom: 20px;
+            overflow-y: auto;
+            padding: 0 40px;
+            font-size: 16px;
+
+            .li {
+              display: flex;
+              margin-bottom: 15px;
+
+              &:last-of-type {
+                margin-bottom: 0;
+              }
+
+              .iconfont {
+                color: #FF6633;
+                margin-right: 5px;
+                font-weight: bold;
+              }
+
+              .text {
+                flex: 1;
+                margin-right: 10px;
+              }
+
+              .time {
+                font-size: 14px;
+                color: #888;
+              }
+            }
+          }
         }
 
-        .list-box-container {
-          width: 60%;
-          padding: 20px 0 20px 20px;
-          /*flex: 1;*/
+        .box3 {
+          display: flex;
 
-          .list-box3 {
-            padding-right: 30px;
+          #chart3 {
+            width: 40%;
             height: 100%;
-            overflow-y: auto;
+          }
 
-            .list {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin-bottom: 20px;
+          .list-box-container {
+            width: 60%;
+            padding: 20px 0 20px 20px;
+            /*flex: 1;*/
 
-              .index {
-                font-size: 20px;
-                color: #5a81c4;
-                margin-right: 15px;
-              }
+            .list-box3 {
+              padding-right: 30px;
+              height: 100%;
+              overflow-y: auto;
 
-              .name {
-                flex: 1;
-                margin-right: 20px;
-                width: 0;
-              }
+              .list {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
 
-              .status {
-                font-size: 12px;
-                padding: 4px 8px;
-                border-radius: 2px;
-                background: #5a81c4;
-                color: #fff;
+                .index {
+                  font-size: 20px;
+                  color: #5a81c4;
+                  margin-right: 15px;
+                }
 
-                &.err {
-                  background: #E64340;
+                .name {
+                  flex: 1;
+                  margin-right: 20px;
+                  width: 0;
+                }
+
+                .status {
+                  font-size: 12px;
+                  padding: 4px 8px;
+                  border-radius: 2px;
+                  background: #5a81c4;
+                  color: #fff;
+
+                  &.err {
+                    background: #E64340;
+                  }
                 }
               }
             }
           }
+
         }
 
-      }
-
-      .box4 {
-        #chart4 {
-          width: 30%;
-          height: 100%;
+        .box4 {
+          #chart4 {
+            width: 30%;
+            height: 100%;
+          }
         }
       }
+
+      .bottom {
+        height: 45%;
+      }
+
+
+      /deep/ .g2-tooltip {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 3px;
+        color: #ddd;
+        font-size: 12px;
+        line-height: 20px;
+        padding: 10px 10px 6px 10px;
+        box-shadow: 0px 0px 10px #aeaeae;
+      }
+
+      /deep/ .g2-tooltip-list {
+        padding: 0;
+        list-style-type: none;
+        margin-top: 5px;
+      }
+
+      /deep/ .g2-tooltip-li {
+        margin: 5px 0;
+      }
+
+      canvas {
+        background: #fff;
+        width: 100%;
+        height: 100%;
+      }
     }
 
-    .bottom {
-      height: 45%;
-    }
-
-
-    /deep/ .g2-tooltip {
-      position: absolute;
-      background-color: rgba(0, 0, 0, 0.7);
-      border-radius: 3px;
-      color: #ddd;
-      font-size: 12px;
-      line-height: 20px;
-      padding: 10px 10px 6px 10px;
-      box-shadow: 0px 0px 10px #aeaeae;
-    }
-
-    /deep/ .g2-tooltip-list {
-      padding: 0;
-      list-style-type: none;
-      margin-top: 5px;
-    }
-
-    /deep/ .g2-tooltip-li {
-      margin: 5px 0;
-    }
   }
 
-  canvas {
-    background: #fff;
-    width: 100%;
-    height: 100%;
-  }
 
 </style>
 
