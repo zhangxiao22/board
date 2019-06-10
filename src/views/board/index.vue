@@ -3,7 +3,7 @@
     <div class="header">
       <div class="name">
         <span>LOGO</span>
-        <span style="margin-left: 20px">xx医院医疗设备托管系统</span>
+        <span>xx医院医疗设备托管系统</span>
       </div>
       <div class="time">
         2019/01/01 周三 17:00:00
@@ -104,6 +104,24 @@
         </div>
         <div class="right box box4">
           <div id="chart4"></div>
+          <div class="list-box4">
+            <div class="list4" v-for="(item,key) of list4" :key="key">
+              <div class="list-box4-left">
+                <div class="text">校准率</div>
+                <div class="percent">35<span style="font-size: 12px">%</span></div>
+              </div>
+              <div class="list-box4-right">
+                <div class="schedule">
+                  <div class="bg" :style="{width:'25%'}"></div>
+                  <div class="target" :style="{left:'90%'}"></div>
+                </div>
+                <div class="schedule-text">
+                  <span class="label">已完成<span class="count">25件</span></span>
+                  <span class="label">本月计划<span class="count">100件</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -284,6 +302,7 @@
         },
         list3: [],
         chart4: {},
+        list4: [1, 2, 3],
       }
     },
     computed: {},
@@ -523,7 +542,7 @@
             group.addShape('path', {
               attrs: {
                 path: path,
-                fill: '#F5222D'
+                fill: '#E64340'
               }
             });
 
@@ -532,9 +551,9 @@
                 x: center.x,
                 y: center.y,
                 r: 8,
-                stroke: '#F5222D',
+                stroke: '#E64340',
                 lineWidth: 2,
-                fill: '#F5222D'
+                fill: '#E64340'
               }
             });
           }
@@ -564,31 +583,7 @@
           nice: false
         });
 
-        chart.axis('1', false);
-        chart.axis('value', {
-          zIndex: 2,
-          line: null,
-          label: {
-            offset: -16,
-            textStyle: {
-              fontSize: 18,
-              textAlign: 'center',
-              textBaseline: 'middle'
-            }
-          },
-          subTickCount: 4,
-          subTickLine: {
-            length: -8,
-            stroke: '#fff',
-            strokeOpacity: 1
-          },
-          tickLine: {
-            length: -17,
-            stroke: '#fff',
-            strokeOpacity: 1
-          },
-          grid: null
-        });
+        chart.axis(false);
         chart.legend(false);
         chart.point().position('value*1').shape('pointer').color('#1890FF').active(false);
 
@@ -599,7 +594,7 @@
           start: [0, 0.945],
           end: [10, 0.945],
           style: { // 底灰色
-            stroke: '#CBCBCB',
+            stroke: '#eee',
             lineWidth: 18
           }
         });
@@ -609,26 +604,41 @@
           start: [0, 0.945],
           end: [data[0].value, 0.945],
           style: {
-            stroke: '#1890FF',
+            stroke: 'l(0) 0:#7BCDC8 1:#5579C4',
             lineWidth: 18
           }
         });
 
         // 绘制仪表盘刻度线
+        for (let i = 0; i <= 10; i++) {
+          chart.guide().line({
+            start: [i, 0.815],
+            end: [i, 0.7],
+            lineStyle: {
+              stroke: '#aaa', // 线的颜色
+              lineDash: null, // 虚线的设置
+              lineWidth: 1
+            }
+          });
+        }
+
         chart.guide().line({
-          // start: [3, 0.85],
           start: [0, 0],
-          // end: [3.0035, 0.945],
-          end: [3.0035, 0.945],
+          end: [9, 0.815],
           lineStyle: {
-            stroke: 'red', // 线的颜色
+            stroke: '#E64340', // 线的颜色
             lineDash: null, // 虚线的设置
             lineWidth: 1
           }
         });
+
+
         chart.guide().html({
-          position: ['50%', '95%'],
-          html: '<div style="width: 300px;text-align: center;">' + '<p style="font-size: 20px; color: #545454;margin: 0;">合格率</p>' + '<p style="font-size: 36px;color: #545454;margin: 0;">' + data[0].value * 10 + '%</p>' + '</div>'
+          position: ['50%', '80%'],
+          html: '<div style="width: 300px;text-align: center;">' +
+            '<p style="font-size: 30px;color: #E64340;margin: 0;font-weight: bold">' +
+            data[0].value * 10 + '<span style="font-size: 12px;">%</span></p>' +
+            '<p style="font-size: 12px; color: #444;margin: 0;">开机率</p></div>'
         });
 
         chart.render();
@@ -651,17 +661,19 @@
     overflow: hidden;
 
     .header {
-      height: 50px;
+      height: 1.6rem;
       width: 100%;
       display: flex;
       align-items: center;
       color: #fff;
-      background: #5373a9;
+      background: linear-gradient(to right, #5579c4, #7accc6);
       padding: 0 20px;
       justify-content: space-between;
+
       .name {
 
       }
+
       .time {
 
       }
@@ -807,8 +819,8 @@
 
             .nav-item {
               position: relative;
-              width: 100px;
-              height: 100px;
+              width: 2.9rem;
+              height: 2.8rem;
               border-radius: 10px;
               cursor: pointer;
               background-color: #d9e9f9;
@@ -925,9 +937,82 @@
         }
 
         .box4 {
+          padding: 0 20px;
+          display: flex;
+
           #chart4 {
             width: 30%;
             height: 100%;
+          }
+
+          .list-box4 {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 50px 10px 50px 20px;
+
+            .list4 {
+              display: flex;
+              /*margin-top: 20px;*/
+
+              .list-box4-left {
+                .text {
+                  margin-bottom: 10px;
+                }
+
+                .percent {
+                  font-weight: bold;
+                  color: #E64340;
+                }
+              }
+
+              .list-box4-right {
+                margin-left: 20px;
+                flex: 1;
+
+
+                .schedule {
+                  width: 100%;
+                  height: 14px;
+                  background: #ddd;
+                  margin-bottom: 12px;
+                  position: relative;
+
+                  .bg {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    background: linear-gradient(to right, #7accc6, #5579c4);
+                  }
+
+                  .target {
+                    height: 100%;
+                    width: 1px;
+                    background: #E64340;
+                    position: absolute;
+                  }
+                }
+
+                .schedule-text {
+                  display: flex;
+                  justify-content: space-between;
+                  padding-right: 40px;
+
+                  .label {
+                    font-size: 12px;
+                  }
+
+                  .count {
+                    font-size: 16px;
+                    font-weight: bold;
+                  }
+                }
+              }
+            }
+
+
           }
         }
       }
