@@ -108,7 +108,7 @@
             <div class="list4" v-for="(item,key) of list4" :key="key">
               <div class="list-box4-left">
                 <div class="text">校准率</div>
-                <div class="percent">35<span style="font-size: 12px">%</span></div>
+                <div class="percent">35<span style="font-size: .4rem;">%</span></div>
               </div>
               <div class="list-box4-right">
                 <div class="schedule">
@@ -116,8 +116,8 @@
                   <div class="target" :style="{left:'90%'}"></div>
                 </div>
                 <div class="schedule-text">
-                  <span class="label">已完成<span class="count">25件</span></span>
-                  <span class="label">本月计划<span class="count">100件</span></span>
+                  <span class="label">已完成<span class="count">25<span class="jian">件</span></span></span>
+                  <span class="label">本月计划<span class="count">100<span class="jian">件</span></span></span>
                 </div>
               </div>
             </div>
@@ -131,9 +131,9 @@
 <script>
   import {} from '@/api/api'
   import G2 from '@antv/g2';
-  import {DataSet} from '@antv/data-set';
+  import {DataSet} from '@antv/data-set'
   import {queryOverview} from '@/api/api'
-  import {numberComma} from '@/common/common';
+  import {getRem} from '@/common/common'
 
   export default {
     components: {},
@@ -301,7 +301,12 @@
           timing: null,
         },
         list3: [],
-        chart4: {},
+        chart4: {
+          data: [{
+            value: 5.6
+          }],
+          target: 9,
+        },
         list4: [1, 2, 3],
       }
     },
@@ -323,6 +328,7 @@
         })
       },
       renderChart1() {
+        // let rem =
         let _this = this
         var dv = new DataSet.DataView();
         dv.source(this.chart1.data).transform({
@@ -332,10 +338,6 @@
             return row;
           }
         })
-        //   .transform({
-        //   type: 'pick',
-        //   fields: [ '收入', '支出' ]
-        // })
           .transform({
             type: 'fold',
             fields: ['收入', '支出'],
@@ -344,22 +346,21 @@
             retains: ['name']
           });
 
-        console.log(dv)
+        // console.log(dv)
         var colorMap = {
-          '收入': '#95cff5',
-          '支出': '#3561A7',
+          '收入': '#86C7E6',
+          '支出': '#1B85E7',
         };
 
         var chart = new G2.Chart({
           container: 'chart1',
           forceFit: true,
           height: document.querySelector('#chart1').clientHeight,
-          padding: [55, 0, 0, 0],
+          padding: [getRem(1.6), 0, 0, 0],
           animate: false,
         });
         chart.source(dv);
         chart.axis(false);
-
 
         this.chart1.data.forEach(function (data, dataIndex) {
           if (data['支出'] > data['收入']) {
@@ -404,10 +405,46 @@
                   </div>`
           }
         });
+        console.log(getRem())
         chart.legend({
+          custom: true,
+          itemWidth: getRem(1.4),
+          items: [
+            {
+              value: '收入', // 图例项的文本内容
+              marker: {
+                symbol: 'square',  // 该图例项 marker 的形状，参见 marker 参数的说明
+                fill: colorMap['收入'],  // 该图例项 marker 的填充颜色
+                radius: getRem(.1)
+              }
+            },
+            {
+              value: '支出', // 图例项的文本内容
+              marker: {
+                symbol: 'square',  // 该图例项 marker 的形状，参见 marker 参数的说明
+                fill: colorMap['支出'],  // 该图例项 marker 的填充颜色
+                radius: getRem(.1)
+              }
+            },
+          ],
           position: 'top-left',
-          offsetX: 20,
-          offsetY: -30,
+          // size: 3,
+          offsetX: getRem(.5),
+          offsetY: -getRem(.8),
+          // marker: {fill: 'red'},
+          textStyle: {
+            // textAlign: 'center', // 文本对齐方向，可取值为： start middle end
+            fill: '#000', // 文本的颜色
+            fontSize: getRem(.4), // 文本大小
+            // textBaseline: 'top' // 文本基准线，可取 top middle bottom，默认为middle
+          },
+          // title: {
+          //   textAlign: 'center', // 文本对齐方向，可取值为： start middle end
+          //   // fill: '#404040', // 文本的颜色
+          //   fontSize: '50', // 文本大小
+          //   // fontWeight: 'bold', // 文本粗细
+          //   textBaseline: 'top' // 文本基准线，可取 top middle bottom，默认为middle
+          // }
           // autoWrap: false,
         });
 
@@ -442,7 +479,7 @@
         // 坐标轴
         chart.coord('theta', {
           radius: 0.75,
-          innerRadius: 0.6
+          innerRadius: 0.7
         });
         // 鼠标hover交互
         chart.tooltip({
@@ -451,16 +488,14 @@
             'background-color': 'rgba(0, 0, 0, 0.7)',
             color: '#ddd',
           },
-          itemTpl: '<li>{name}<br/><br/> 参报数量：{value}</li>'
+          itemTpl: '<li style="font-size: .4rem;">{name}<br/><br/><span style="font-size:.36rem;">参报数量：{value}</span></li>'
         });
         // 辅助文本
         chart.guide().html({
           position: ['50%', '50%'],
-          html: `<div style="font-size: 14px;text-align: center;width: 10em;">
-                  <span style="font-size:20px;font-weight: bold;">${total}</span>件
-                  <br />
-                  <br />
-                  今日总报修
+          html: `<div style="font-size: .4rem;text-align: center;width: 10em;">
+                  <span style="font-size:.8rem;font-weight: bold;">${total}</span>件
+                  <div style="margin-top: .25rem">今日总报修</div>
                 </div>`,
           alignX: 'middle',
           alignY: 'middle'
@@ -505,13 +540,15 @@
         // 通过下标获取list
         console.log(index)
         this.list3 = this.chart3.data[index].list
+        // 滚动条回到顶
+        document.querySelector('.list-box3').scrollTo(0, 0)
       },
       renderChart4() {
+        let _this = this
         var Shape = G2.Shape;
         // 自定义Shape 部分
         Shape.registerShape('point', 'pointer', {
           drawShape: function drawShape(cfg, group) {
-            console.log(cfg)
             var center = this.parsePoint({ // 获取极坐标系下画布中心点
               x: 0,
               y: 0
@@ -519,7 +556,7 @@
             var point = cfg.points[0];
             var target = this.parsePoint({
               x: point.x,
-              y: 0.9
+              y: 1
             });
             var dir_vec = {
               x: center.x - target.x,
@@ -538,7 +575,10 @@
             var x_2 = Math.cos(angle2) * dir_vec.x - Math.sin(angle2) * dir_vec.y;
             var y_2 = Math.sin(angle2) * dir_vec.x + Math.cos(angle2) * dir_vec.y;
             //polygon vertex
-            var path = [['M', target.x + x_1 * 1, target.y + y_1 * 1], ['L', center.x + x_1 * 3, center.y + y_1 * 3], ['L', center.x + x_2 * 3, center.y + y_2 * 3], ['L', target.x + x_2 * 1, target.y + y_2 * 1], ['Z']];
+
+            console.log(document.querySelector('#chart4').clientWidth, getRem(.5))
+            var n = getRem(.16)
+            var path = [['M', target.x + x_1 * 1, target.y + y_1 * 1], ['L', center.x + x_1 * n, center.y + y_1 * n], ['L', center.x + x_2 * n, center.y + y_2 * n], ['L', target.x + x_2 * 1, target.y + y_2 * 1], ['Z']];
             group.addShape('path', {
               attrs: {
                 path: path,
@@ -550,7 +590,7 @@
               attrs: {
                 x: center.x,
                 y: center.y,
-                r: 8,
+                r: getRem(.3),
                 stroke: '#E64340',
                 lineWidth: 2,
                 fill: '#E64340'
@@ -559,16 +599,14 @@
           }
         });
 
-        var data = [{
-          value: 5.6
-        }];
+
         var chart = new G2.Chart({
           container: 'chart4',
           forceFit: true,
-          height: document.querySelector('#chart1').clientHeight,
+          height: document.querySelector('#chart4').clientHeight,
           padding: 'auto'
         });
-        chart.source(data);
+        chart.source(_this.chart4.data);
         // 坐标轴
         chart.coord('polar', {
           startAngle: -9 / 8 * Math.PI,
@@ -594,18 +632,18 @@
           start: [0, 0.945],
           end: [10, 0.945],
           style: { // 底灰色
-            stroke: '#eee',
-            lineWidth: 18
+            stroke: '#eef2f8',
+            lineWidth: getRem(.5)
           }
         });
         // 绘制指标
         chart.guide().arc({
           zIndex: 1,
           start: [0, 0.945],
-          end: [data[0].value, 0.945],
+          end: [_this.chart4.data[0].value, 0.945],
           style: {
             stroke: 'l(0) 0:#7BCDC8 1:#5579C4',
-            lineWidth: 18
+            lineWidth: getRem(.5)
           }
         });
 
@@ -624,21 +662,21 @@
 
         chart.guide().line({
           start: [0, 0],
-          end: [9, 0.815],
+          end: [_this.chart4.target, 0.815],
           lineStyle: {
             stroke: '#E64340', // 线的颜色
-            lineDash: null, // 虚线的设置
+            lineDash: [1], // 虚线的设置
             lineWidth: 1
           }
         });
 
 
         chart.guide().html({
-          position: ['50%', '80%'],
+          position: ['50%', '72%'],
           html: '<div style="width: 300px;text-align: center;">' +
-            '<p style="font-size: 30px;color: #E64340;margin: 0;font-weight: bold">' +
-            data[0].value * 10 + '<span style="font-size: 12px;">%</span></p>' +
-            '<p style="font-size: 12px; color: #444;margin: 0;">开机率</p></div>'
+            '<p style="font-size: .8rem;color: #E64340;margin: 0;font-weight: bold">' +
+            _this.chart4.data[0].value * 10 + '<span style="font-size: .4rem;">%</span></p>' +
+            '<p style="font-size: .4rem; color: #444;margin-top: .1rem;">开机率</p></div>'
         });
 
         chart.render();
@@ -657,8 +695,9 @@
     min-width: 1200px;
     width: 100%;
     height: 100%;
-    background: #d9e9f9;
+    background: #D7E0EE;
     overflow: hidden;
+    font-size: .4rem;
 
     .header {
       height: 1.6rem;
@@ -667,7 +706,7 @@
       align-items: center;
       color: #fff;
       background: linear-gradient(to right, #5579c4, #7accc6);
-      padding: 0 20px;
+      padding: 0 .4rem;
       justify-content: space-between;
 
       .name {
@@ -680,9 +719,9 @@
     }
 
     .content {
-      padding: 5px;
+      padding: .3rem;
       width: 100%;
-      height: calc(100% - 50px);
+      height: calc(100% - 1.6rem);
 
       .top, .bottom {
         width: 100%;
@@ -699,38 +738,39 @@
 
         .box {
           background: #fff;
-          margin: 5px;
-          border-radius: 2px;
+          margin: .15rem;
+          border-radius: .16rem;
         }
 
         .box1 {
           display: flex;
           flex-direction: column;
+          background: transparent;
 
           .top-list-box {
-            background: #d9e9f9;
+            /*background: #D7E0EE;*/
             display: flex;
-            padding-bottom: 10px;
+            padding-bottom: .3rem;
 
             .item {
               background: #fff;
-              border-radius: 2px;
-              height: 80px;
+              border-radius: .16rem;
+              height: 2.6rem;
               flex: 1;
-              margin-right: 10px;
-              padding: 15px 0 15px 10px;
+              margin-right: .3rem;
+              padding: .5rem 0 .5rem .6rem;
               display: flex;
               flex-direction: column;
               justify-content: space-between;
 
               .value {
-                color: #5373a9;
-                font-size: 24px;
+                color: #3D6EC0;
+                font-size: .72rem;
                 font-weight: bolder;
               }
 
               .text {
-
+                font-size: .4rem;
               }
 
               &:last-of-type {
@@ -740,31 +780,36 @@
           }
 
           .chart1-box {
-            flex: 1;
-            padding: 10px 0;
+            background: #fff;
+            /*flex: 1;*/
+            padding: .5rem;
             position: relative;
+            border-radius: .16rem;
+            height: calc(100% - 2.9rem);
 
             .list-box1 {
               position: absolute;
-              right: 10px;
-              top: 10px;
+              right: .8rem;
+              top: .5rem;
               display: flex;
+              z-index: 2;
 
               .list {
                 display: flex;
                 align-items: baseline;
-                margin-left: 20px;
+                margin-left: .85rem;
 
                 .total {
-                  margin-right: 10px;
+                  margin-right: .6rem;
 
                   .value {
                     font-weight: bold;
-                    font-size: 20px;
+                    font-size: .6rem;
+                    margin-bottom: .1rem;
                   }
 
                   .text {
-
+                    font-size: .4rem;
                   }
                 }
 
@@ -773,18 +818,19 @@
 
                   .value {
                     font-weight: bold;
-                    font-size: 20px;
+                    font-size: .6rem;
                     display: flex;
                     align-items: baseline;
+                    margin-bottom: .1rem;
 
                     .iconfont {
-                      font-size: 24px;
+                      font-size: .7rem;
                     }
                   }
 
                   .text {
                     color: #000;
-
+                    font-size: .4rem;
                   }
 
                   &.up {
@@ -814,34 +860,34 @@
 
           .nav {
             display: flex;
-            padding: 10px;
+            padding: .5rem .9rem;
             justify-content: space-between;
 
             .nav-item {
               position: relative;
               width: 2.9rem;
               height: 2.8rem;
-              border-radius: 10px;
+              border-radius: .16rem;
               cursor: pointer;
               background-color: #d9e9f9;
-              margin: 10px;
               display: flex;
               flex-direction: column;
               align-items: center;
-              padding: 15px 0;
+              padding: .6rem 0 .4rem;
               justify-content: space-between;
 
               &:hover {
-                box-shadow: 0px 0px 6px #aaa;
+                box-shadow: 0 0 .06rem #aaa;
               }
 
               .iconfont {
-                font-size: 36px;
-                color: #5a81c4;
+                font-size: 1.1rem;
+                color: #3D6EC0;;
               }
 
               .text {
                 font-weight: bold;
+                font-size: .4rem;
               }
             }
           }
@@ -850,33 +896,36 @@
             position: absolute;
             left: 0;
             right: 0;
-            top: 140px;
-            bottom: 20px;
+            top: 4.1rem;
+            bottom: .6rem;
             overflow-y: auto;
-            padding: 0 40px;
-            font-size: 16px;
+            padding: 0 .95rem;
+            font-size: .4rem;
 
             .li {
               display: flex;
-              margin-bottom: 15px;
+              margin-bottom: .58rem;
+              align-items: center;
+              font-size: .4rem;
 
               &:last-of-type {
                 margin-bottom: 0;
               }
 
               .iconfont {
-                color: #FF6633;
-                margin-right: 5px;
+                color: #E2340D;
+                margin-right: .2rem;
                 font-weight: bold;
+                font-size: .44rem;
               }
 
               .text {
                 flex: 1;
-                margin-right: 10px;
+                margin-right: .1rem;
               }
 
               .time {
-                font-size: 14px;
+                font-size: .36rem;
                 color: #888;
               }
             }
@@ -893,11 +942,11 @@
 
           .list-box-container {
             width: 60%;
-            padding: 20px 0 20px 20px;
+            padding: .6rem 0 .6rem .4rem;
             /*flex: 1;*/
 
             .list-box3 {
-              padding-right: 30px;
+              padding-right: .9rem;
               height: 100%;
               overflow-y: auto;
 
@@ -905,29 +954,33 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 20px;
+                margin-bottom: .4rem;
+
+                &:last-of-type {
+                  margin-bottom: 0;
+                }
 
                 .index {
-                  font-size: 20px;
+                  font-size: .54rem;
                   color: #5a81c4;
-                  margin-right: 15px;
+                  margin-right: .35rem;
                 }
 
                 .name {
                   flex: 1;
-                  margin-right: 20px;
+                  margin-right: .4rem;
                   width: 0;
                 }
 
                 .status {
-                  font-size: 12px;
-                  padding: 4px 8px;
-                  border-radius: 2px;
-                  background: #5a81c4;
+                  font-size: .36rem;
+                  padding: .08rem .14rem;
+                  border-radius: .08rem;
+                  background: #5975AE;
                   color: #fff;
 
                   &.err {
-                    background: #E64340;
+                    background: #E2340D;
                   }
                 }
               }
@@ -937,7 +990,7 @@
         }
 
         .box4 {
-          padding: 0 20px;
+          padding: 0 .8rem;
           display: flex;
 
           #chart4 {
@@ -950,33 +1003,33 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 50px 10px 50px 20px;
+            padding: 1.2rem .2rem 1.2rem .8rem;
 
             .list4 {
               display: flex;
-              /*margin-top: 20px;*/
 
               .list-box4-left {
                 .text {
-                  margin-bottom: 10px;
+                  margin-bottom: .4rem;
                 }
 
                 .percent {
                   font-weight: bold;
                   color: #E64340;
+                  font-size: .6rem;
                 }
               }
 
               .list-box4-right {
-                margin-left: 20px;
+                margin-left: .8rem;
                 flex: 1;
 
 
                 .schedule {
                   width: 100%;
-                  height: 14px;
+                  height: .4rem;
                   background: #ddd;
-                  margin-bottom: 12px;
+                  margin-bottom: .4rem;
                   position: relative;
 
                   .bg {
@@ -989,8 +1042,9 @@
 
                   .target {
                     height: 100%;
-                    width: 1px;
-                    background: #E64340;
+                    width: 0;
+                    border-right: .02rem dotted #E64340;
+                    /*background: #E64340;*/
                     position: absolute;
                   }
                 }
@@ -998,15 +1052,19 @@
                 .schedule-text {
                   display: flex;
                   justify-content: space-between;
-                  padding-right: 40px;
+                  padding-right: 1.2rem;
 
                   .label {
-                    font-size: 12px;
+                    font-size: .36rem;
                   }
 
                   .count {
-                    font-size: 16px;
+                    font-size: .6rem;
                     font-weight: bold;
+
+                    .jian {
+                      font-size: .4rem;
+                    }
                   }
                 }
               }
@@ -1025,22 +1083,26 @@
       /deep/ .g2-tooltip {
         position: absolute;
         background-color: rgba(0, 0, 0, 0.7);
-        border-radius: 3px;
+        border-radius: .16rem;
         color: #ddd;
-        font-size: 12px;
-        line-height: 20px;
-        padding: 10px 10px 6px 10px;
-        box-shadow: 0px 0px 10px #aeaeae;
+        font-size: .36rem;
+        line-height: 1.2;
+        padding: .24rem .24rem .1rem .24rem;
+        box-shadow: 0 0 .1rem #aeaeae;
+      }
+
+      /deep/ .g2-tooltip-title {
+        font-size: .4rem;
       }
 
       /deep/ .g2-tooltip-list {
         padding: 0;
         list-style-type: none;
-        margin-top: 5px;
-      }
+        margin-top: .2rem;
 
-      /deep/ .g2-tooltip-li {
-        margin: 5px 0;
+        .g2-tooltip-li {
+          margin: .2rem 0;
+        }
       }
 
       canvas {
