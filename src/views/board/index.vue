@@ -2,7 +2,7 @@
   <div class="container">
     <div class="header">
       <div class="name">
-        <span>LOGO</span>
+        <img class="arrow" src="../../../static/images/logo.png"/>
         <span>xx医院医疗设备托管系统</span>
       </div>
       <div class="time">
@@ -68,25 +68,7 @@
           </div>
         </div>
         <div class="right box box2">
-          <div class="nav">
-            <div class="nav-item"
-                 :class="'nav-item-'+key"
-                 v-for="(item,key) of navList"
-                 :key="key"
-                 @click="list2=item.list">
-              <div class="iconfont" :class="item.icon"></div>
-              <div class="text">{{item.name}}</div>
-            </div>
-          </div>
-          <div class="list">
-            <div class="li" v-for="(item,key) of list2" :key="key">
-              <span class="iconfont icon-jingbao"></span>
-              <span class="text elip" title="飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方">
-              飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方
-            </span>
-              <span class="time">2019-01-01 11:11:11</span>
-            </div>
-          </div>
+          <EventList></EventList>
         </div>
       </div>
       <div class="bottom">
@@ -103,25 +85,7 @@
           </div>
         </div>
         <div class="right box box4">
-          <div id="chart4"></div>
-          <div class="list-box4">
-            <div class="list4" v-for="(item,key) of list4" :key="key">
-              <div class="list-box4-left">
-                <div class="text">校准率</div>
-                <div class="percent">35<span style="font-size: .4rem;">%</span></div>
-              </div>
-              <div class="list-box4-right">
-                <div class="schedule">
-                  <div class="bg" :style="{width:'25%'}"></div>
-                  <div class="target" :style="{left:'90%'}"></div>
-                </div>
-                <div class="schedule-text">
-                  <span class="label">已完成<span class="count">25<span class="jian">件</span></span></span>
-                  <span class="label">本月计划<span class="count">100<span class="jian">件</span></span></span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <KpiList></KpiList>
         </div>
       </div>
     </div>
@@ -134,16 +98,15 @@
   import {DataSet} from '@antv/data-set'
   import {queryOverview} from '@/api/api'
   import {getRem} from '@/common/common'
+  import EventList from '../../components/componentEventList'
+  import KpiList from '../../components/componentKpiGauge'
 
   export default {
-    components: {},
-    // filters: {
-    //   numberComma(source, length = 3) {
-    //     source = String(source).split(".");
-    //     source[0] = source[0].replace(new RegExp('(\\d)(?=(\\d{' + length + '})+$)', 'ig'), "$1,");
-    //     return source.join(".");
-    //   },
-    // },
+    components: {
+      EventList,
+      KpiList,
+    },
+
     data() {
       return {
         chart1: {
@@ -240,24 +203,7 @@
             '服务人次': 3.4,
           }],
         },
-        navList: [{
-          name: '紧急维修',
-          icon: 'icon-xiuli1',
-          list: Array(33),
-        }, {
-          name: '召回事件',
-          icon: 'icon-buhegepinzhaohui',
-          list: Array(33),
-        }, {
-          name: '强检事件',
-          icon: 'icon-jingbao1',
-          list: Array(33),
-        }, {
-          name: '超期事件',
-          icon: 'icon-rili',
-          list: Array(33),
-        }],
-        list2: [],
+
         chart3: {
           data: [{
             name: '骨科',
@@ -301,23 +247,15 @@
           timing: null,
         },
         list3: [],
-        chart4: {
-          data: [{
-            value: 5.6
-          }],
-          target: 9,
-        },
-        list4: [1, 2, 3],
+
       }
     },
     computed: {},
     created() {
       // this.getqueryOverview()
-
       this.$nextTick(() => {
         this.renderChart1()
         this.renderChart3()
-        this.renderChart4()
       })
       this.autoSelectchart3()
     },
@@ -346,7 +284,7 @@
             retains: ['name']
           });
 
-        // console.log(dv)
+        console.log(dv)
         var colorMap = {
           '收入': '#86C7E6',
           '支出': '#1B85E7',
@@ -357,7 +295,7 @@
           forceFit: true,
           height: document.querySelector('#chart1').clientHeight,
           padding: [getRem(1.6), 0, 0, 0],
-          animate: false,
+          // animate: false,
         });
         chart.source(dv);
         chart.axis(false);
@@ -405,7 +343,8 @@
                   </div>`
           }
         });
-        console.log(getRem())
+        // console.log(getRem())
+
         chart.legend({
           custom: true,
           itemWidth: getRem(1.4),
@@ -428,7 +367,6 @@
             },
           ],
           position: 'top-left',
-          // size: 3,
           offsetX: getRem(.5),
           offsetY: -getRem(.8),
           // marker: {fill: 'red'},
@@ -438,6 +376,28 @@
             fontSize: getRem(.4), // 文本大小
             // textBaseline: 'top' // 文本基准线，可取 top middle bottom，默认为middle
           },
+
+          // onClick: ev => {
+          //   const item = ev.item;
+          //   const value = item.value;
+          //   const checked = ev.checked;
+          //   const geoms = chart.getAllGeoms();
+          //   for (let i = 0; i < geoms.length; i++) {
+          //     console.log('i:', i)
+          //     const geom = geoms[i];
+          //     console.log(geom.getYScale(), '///', value)
+          //     if (geom.getYScale().field === value) {
+          //       if (checked) {
+          //         geom.show();
+          //       } else {
+          //         geom.hide();
+          //       }
+          //     }
+          //   }
+          // }
+          hoverable: false,
+          reactive: false,
+          clickable: false,
           // title: {
           //   textAlign: 'center', // 文本对齐方向，可取值为： start middle end
           //   // fill: '#404040', // 文本的颜色
@@ -466,7 +426,7 @@
           forceFit: true,
           padding: 0,
           height: document.querySelector('#chart3').clientHeight,
-          animate: false,
+          // animate: false,
         });
         chart.source(this.chart3.data, {
           // 'count': {
@@ -543,144 +503,6 @@
         // 滚动条回到顶
         document.querySelector('.list-box3').scrollTo(0, 0)
       },
-      renderChart4() {
-        let _this = this
-        var Shape = G2.Shape;
-        // 自定义Shape 部分
-        Shape.registerShape('point', 'pointer', {
-          drawShape: function drawShape(cfg, group) {
-            var center = this.parsePoint({ // 获取极坐标系下画布中心点
-              x: 0,
-              y: 0
-            });
-            var point = cfg.points[0];
-            var target = this.parsePoint({
-              x: point.x,
-              y: 1
-            });
-            var dir_vec = {
-              x: center.x - target.x,
-              y: center.y - target.y
-            };
-            //normalize
-            var length = Math.sqrt(dir_vec.x * dir_vec.x + dir_vec.y * dir_vec.y);
-            dir_vec.x *= 1 / length;
-            dir_vec.y *= 1 / length;
-            //rotate dir_vector by -90 and scale
-            var angle1 = -Math.PI / 2;
-            var x_1 = Math.cos(angle1) * dir_vec.x - Math.sin(angle1) * dir_vec.y;
-            var y_1 = Math.sin(angle1) * dir_vec.x + Math.cos(angle1) * dir_vec.y;
-            //rotate dir_vector by 90 and scale
-            var angle2 = Math.PI / 2;
-            var x_2 = Math.cos(angle2) * dir_vec.x - Math.sin(angle2) * dir_vec.y;
-            var y_2 = Math.sin(angle2) * dir_vec.x + Math.cos(angle2) * dir_vec.y;
-            //polygon vertex
-
-            console.log(document.querySelector('#chart4').clientWidth, getRem(.5))
-            var n = getRem(.16)
-            var path = [['M', target.x + x_1 * 1, target.y + y_1 * 1], ['L', center.x + x_1 * n, center.y + y_1 * n], ['L', center.x + x_2 * n, center.y + y_2 * n], ['L', target.x + x_2 * 1, target.y + y_2 * 1], ['Z']];
-            group.addShape('path', {
-              attrs: {
-                path: path,
-                fill: '#E64340'
-              }
-            });
-
-            return group.addShape('circle', {
-              attrs: {
-                x: center.x,
-                y: center.y,
-                r: getRem(.3),
-                stroke: '#E64340',
-                lineWidth: 2,
-                fill: '#E64340'
-              }
-            });
-          }
-        });
-
-
-        var chart = new G2.Chart({
-          container: 'chart4',
-          forceFit: true,
-          height: document.querySelector('#chart4').clientHeight,
-          padding: 'auto'
-        });
-        chart.source(_this.chart4.data);
-        // 坐标轴
-        chart.coord('polar', {
-          startAngle: -9 / 8 * Math.PI,
-          endAngle: 1 / 9 * Math.PI,
-          radius: 1,
-        });
-        // 刻度
-        chart.scale('value', {
-          min: 0,
-          max: 10,
-          tickInterval: 1,
-          nice: false
-        });
-
-        chart.axis(false);
-        chart.legend(false);
-        chart.point().position('value*1').shape('pointer').color('#1890FF').active(false);
-
-        // 绘制仪表盘背景
-        chart.guide().arc({
-          zIndex: 0,
-          top: false,
-          start: [0, 0.945],
-          end: [10, 0.945],
-          style: { // 底灰色
-            stroke: '#eef2f8',
-            lineWidth: getRem(.5)
-          }
-        });
-        // 绘制指标
-        chart.guide().arc({
-          zIndex: 1,
-          start: [0, 0.945],
-          end: [_this.chart4.data[0].value, 0.945],
-          style: {
-            stroke: 'l(0) 0:#7BCDC8 1:#5579C4',
-            lineWidth: getRem(.5)
-          }
-        });
-
-        // 绘制仪表盘刻度线
-        for (let i = 0; i <= 10; i++) {
-          chart.guide().line({
-            start: [i, 0.815],
-            end: [i, 0.7],
-            lineStyle: {
-              stroke: '#aaa', // 线的颜色
-              lineDash: null, // 虚线的设置
-              lineWidth: 1
-            }
-          });
-        }
-
-        chart.guide().line({
-          start: [0, 0],
-          end: [_this.chart4.target, 0.815],
-          lineStyle: {
-            stroke: '#E64340', // 线的颜色
-            lineDash: [1], // 虚线的设置
-            lineWidth: 1
-          }
-        });
-
-
-        chart.guide().html({
-          position: ['50%', '72%'],
-          html: '<div style="width: 300px;text-align: center;">' +
-            '<p style="font-size: .8rem;color: #E64340;margin: 0;font-weight: bold">' +
-            _this.chart4.data[0].value * 10 + '<span style="font-size: .4rem;">%</span></p>' +
-            '<p style="font-size: .4rem; color: #444;margin-top: .1rem;">开机率</p></div>'
-        });
-
-        chart.render();
-      },
 
       numberComma(source, length = 3) {
         source = String(source).split(".");
@@ -710,7 +532,19 @@
       justify-content: space-between;
 
       .name {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: .4rem 0;
 
+        img {
+          width: auto;
+          height: 100%;
+        }
+
+        span {
+          margin-left: .5rem;
+        }
       }
 
       .time {
@@ -858,78 +692,7 @@
         .box2 {
           position: relative;
 
-          .nav {
-            display: flex;
-            padding: .5rem .9rem;
-            justify-content: space-between;
 
-            .nav-item {
-              position: relative;
-              width: 2.9rem;
-              height: 2.8rem;
-              border-radius: .16rem;
-              cursor: pointer;
-              background-color: #d9e9f9;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              padding: .6rem 0 .4rem;
-              justify-content: space-between;
-
-              &:hover {
-                box-shadow: 0 0 .06rem #aaa;
-              }
-
-              .iconfont {
-                font-size: 1.1rem;
-                color: #3D6EC0;;
-              }
-
-              .text {
-                font-weight: bold;
-                font-size: .4rem;
-              }
-            }
-          }
-
-          .list {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 4.1rem;
-            bottom: .6rem;
-            overflow-y: auto;
-            padding: 0 .95rem;
-            font-size: .4rem;
-
-            .li {
-              display: flex;
-              margin-bottom: .58rem;
-              align-items: center;
-              font-size: .4rem;
-
-              &:last-of-type {
-                margin-bottom: 0;
-              }
-
-              .iconfont {
-                color: #E2340D;
-                margin-right: .2rem;
-                font-weight: bold;
-                font-size: .44rem;
-              }
-
-              .text {
-                flex: 1;
-                margin-right: .1rem;
-              }
-
-              .time {
-                font-size: .36rem;
-                color: #888;
-              }
-            }
-          }
         }
 
         .box3 {
@@ -991,87 +754,6 @@
 
         .box4 {
           padding: 0 .8rem;
-          display: flex;
-
-          #chart4 {
-            width: 30%;
-            height: 100%;
-          }
-
-          .list-box4 {
-            width: 70%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 1.2rem .2rem 1.2rem .8rem;
-
-            .list4 {
-              display: flex;
-
-              .list-box4-left {
-                .text {
-                  margin-bottom: .4rem;
-                }
-
-                .percent {
-                  font-weight: bold;
-                  color: #E64340;
-                  font-size: .6rem;
-                }
-              }
-
-              .list-box4-right {
-                margin-left: .8rem;
-                flex: 1;
-
-
-                .schedule {
-                  width: 100%;
-                  height: .4rem;
-                  background: #ddd;
-                  margin-bottom: .4rem;
-                  position: relative;
-
-                  .bg {
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    bottom: 0;
-                    background: linear-gradient(to right, #7accc6, #5579c4);
-                  }
-
-                  .target {
-                    height: 100%;
-                    width: 0;
-                    border-right: .02rem dotted #E64340;
-                    /*background: #E64340;*/
-                    position: absolute;
-                  }
-                }
-
-                .schedule-text {
-                  display: flex;
-                  justify-content: space-between;
-                  padding-right: 1.2rem;
-
-                  .label {
-                    font-size: .36rem;
-                  }
-
-                  .count {
-                    font-size: .6rem;
-                    font-weight: bold;
-
-                    .jian {
-                      font-size: .4rem;
-                    }
-                  }
-                }
-              }
-            }
-
-
-          }
         }
       }
 
