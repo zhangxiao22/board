@@ -2,8 +2,8 @@
   <div class="container">
     <div class="header">
       <div class="name">
-        <span>LOGO</span>
-        <span style="margin-left: 20px">xx医院医疗设备托管系统</span>
+        <img class="arrow" src="../../../static/images/logo.png"/>
+        <span>xx医院医疗设备托管系统</span>
       </div>
       <div class="time">
         2019/01/01 周三 17:00:00
@@ -68,25 +68,7 @@
           </div>
         </div>
         <div class="right box box2">
-          <div class="nav">
-            <div class="nav-item"
-                 :class="'nav-item-'+key"
-                 v-for="(item,key) of navList"
-                 :key="key"
-                 @click="list2=item.list">
-              <div class="iconfont" :class="item.icon"></div>
-              <div class="text">{{item.name}}</div>
-            </div>
-          </div>
-          <div class="list">
-            <div class="li" v-for="(item,key) of list2" :key="key">
-              <span class="iconfont icon-jingbao"></span>
-              <span class="text elip" title="飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方">
-              飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方
-            </span>
-              <span class="time">2019-01-01 11:11:11</span>
-            </div>
-          </div>
+          <EventList></EventList>
         </div>
       </div>
       <div class="bottom">
@@ -103,7 +85,7 @@
           </div>
         </div>
         <div class="right box box4">
-          <div id="chart4"></div>
+          <KpiList></KpiList>
         </div>
       </div>
     </div>
@@ -113,19 +95,18 @@
 <script>
   import {} from '@/api/api'
   import G2 from '@antv/g2';
-  import {DataSet} from '@antv/data-set';
+  import {DataSet} from '@antv/data-set'
   import {queryOverview} from '@/api/api'
-  import {numberComma} from '@/common/common';
+  import {getRem} from '@/common/common'
+  import EventList from '../../components/componentEventList'
+  import KpiList from '../../components/componentKpiGauge'
 
   export default {
-    components: {},
-    // filters: {
-    //   numberComma(source, length = 3) {
-    //     source = String(source).split(".");
-    //     source[0] = source[0].replace(new RegExp('(\\d)(?=(\\d{' + length + '})+$)', 'ig'), "$1,");
-    //     return source.join(".");
-    //   },
-    // },
+    components: {
+      EventList,
+      KpiList,
+    },
+
     data() {
       return {
         chart1: {
@@ -222,24 +203,7 @@
             '服务人次': 3.4,
           }],
         },
-        navList: [{
-          name: '紧急维修',
-          icon: 'icon-xiuli1',
-          list: Array(33),
-        }, {
-          name: '召回事件',
-          icon: 'icon-buhegepinzhaohui',
-          list: Array(33),
-        }, {
-          name: '强检事件',
-          icon: 'icon-jingbao1',
-          list: Array(33),
-        }, {
-          name: '超期事件',
-          icon: 'icon-rili',
-          list: Array(33),
-        }],
-        list2: [],
+
         chart3: {
           data: [{
             name: '骨科',
@@ -283,17 +247,15 @@
           timing: null,
         },
         list3: [],
-        chart4: {},
+
       }
     },
     computed: {},
     created() {
       // this.getqueryOverview()
-
       this.$nextTick(() => {
         this.renderChart1()
         this.renderChart3()
-        this.renderChart4()
       })
       this.autoSelectchart3()
     },
@@ -304,6 +266,7 @@
         })
       },
       renderChart1() {
+        // let rem =
         let _this = this
         var dv = new DataSet.DataView();
         dv.source(this.chart1.data).transform({
@@ -313,10 +276,6 @@
             return row;
           }
         })
-        //   .transform({
-        //   type: 'pick',
-        //   fields: [ '收入', '支出' ]
-        // })
           .transform({
             type: 'fold',
             fields: ['收入', '支出'],
@@ -327,20 +286,19 @@
 
         console.log(dv)
         var colorMap = {
-          '收入': '#95cff5',
-          '支出': '#3561A7',
+          '收入': '#86C7E6',
+          '支出': '#1B85E7',
         };
 
         var chart = new G2.Chart({
           container: 'chart1',
           forceFit: true,
           height: document.querySelector('#chart1').clientHeight,
-          padding: [55, 0, 0, 0],
-          animate: false,
+          padding: [getRem(1.6), 0, 0, 0],
+          // animate: false,
         });
         chart.source(dv);
         chart.axis(false);
-
 
         this.chart1.data.forEach(function (data, dataIndex) {
           if (data['支出'] > data['收入']) {
@@ -385,10 +343,68 @@
                   </div>`
           }
         });
+        // console.log(getRem())
+
         chart.legend({
+          custom: true,
+          itemWidth: getRem(1.4),
+          items: [
+            {
+              value: '收入', // 图例项的文本内容
+              marker: {
+                symbol: 'square',  // 该图例项 marker 的形状，参见 marker 参数的说明
+                fill: colorMap['收入'],  // 该图例项 marker 的填充颜色
+                radius: getRem(.1)
+              }
+            },
+            {
+              value: '支出', // 图例项的文本内容
+              marker: {
+                symbol: 'square',  // 该图例项 marker 的形状，参见 marker 参数的说明
+                fill: colorMap['支出'],  // 该图例项 marker 的填充颜色
+                radius: getRem(.1)
+              }
+            },
+          ],
           position: 'top-left',
-          offsetX: 20,
-          offsetY: -30,
+          offsetX: getRem(.5),
+          offsetY: -getRem(.8),
+          // marker: {fill: 'red'},
+          textStyle: {
+            // textAlign: 'center', // 文本对齐方向，可取值为： start middle end
+            fill: '#000', // 文本的颜色
+            fontSize: getRem(.4), // 文本大小
+            // textBaseline: 'top' // 文本基准线，可取 top middle bottom，默认为middle
+          },
+
+          // onClick: ev => {
+          //   const item = ev.item;
+          //   const value = item.value;
+          //   const checked = ev.checked;
+          //   const geoms = chart.getAllGeoms();
+          //   for (let i = 0; i < geoms.length; i++) {
+          //     console.log('i:', i)
+          //     const geom = geoms[i];
+          //     console.log(geom.getYScale(), '///', value)
+          //     if (geom.getYScale().field === value) {
+          //       if (checked) {
+          //         geom.show();
+          //       } else {
+          //         geom.hide();
+          //       }
+          //     }
+          //   }
+          // }
+          hoverable: false,
+          reactive: false,
+          clickable: false,
+          // title: {
+          //   textAlign: 'center', // 文本对齐方向，可取值为： start middle end
+          //   // fill: '#404040', // 文本的颜色
+          //   fontSize: '50', // 文本大小
+          //   // fontWeight: 'bold', // 文本粗细
+          //   textBaseline: 'top' // 文本基准线，可取 top middle bottom，默认为middle
+          // }
           // autoWrap: false,
         });
 
@@ -410,7 +426,7 @@
           forceFit: true,
           padding: 0,
           height: document.querySelector('#chart3').clientHeight,
-          animate: false,
+          // animate: false,
         });
         chart.source(this.chart3.data, {
           // 'count': {
@@ -423,7 +439,7 @@
         // 坐标轴
         chart.coord('theta', {
           radius: 0.75,
-          innerRadius: 0.6
+          innerRadius: 0.7
         });
         // 鼠标hover交互
         chart.tooltip({
@@ -432,16 +448,14 @@
             'background-color': 'rgba(0, 0, 0, 0.7)',
             color: '#ddd',
           },
-          itemTpl: '<li>{name}<br/><br/> 参报数量：{value}</li>'
+          itemTpl: '<li style="font-size: .4rem;">{name}<br/><br/><span style="font-size:.36rem;">参报数量：{value}</span></li>'
         });
         // 辅助文本
         chart.guide().html({
           position: ['50%', '50%'],
-          html: `<div style="font-size: 14px;text-align: center;width: 10em;">
-                  <span style="font-size:20px;font-weight: bold;">${total}</span>件
-                  <br />
-                  <br />
-                  今日总报修
+          html: `<div style="font-size: .4rem;text-align: center;width: 10em;">
+                  <span style="font-size:.8rem;font-weight: bold;">${total}</span>件
+                  <div style="margin-top: .25rem">今日总报修</div>
                 </div>`,
           alignX: 'middle',
           alignY: 'middle'
@@ -486,152 +500,8 @@
         // 通过下标获取list
         console.log(index)
         this.list3 = this.chart3.data[index].list
-      },
-      renderChart4() {
-        var Shape = G2.Shape;
-        // 自定义Shape 部分
-        Shape.registerShape('point', 'pointer', {
-          drawShape: function drawShape(cfg, group) {
-            console.log(cfg)
-            var center = this.parsePoint({ // 获取极坐标系下画布中心点
-              x: 0,
-              y: 0
-            });
-            var point = cfg.points[0];
-            var target = this.parsePoint({
-              x: point.x,
-              y: 0.9
-            });
-            var dir_vec = {
-              x: center.x - target.x,
-              y: center.y - target.y
-            };
-            //normalize
-            var length = Math.sqrt(dir_vec.x * dir_vec.x + dir_vec.y * dir_vec.y);
-            dir_vec.x *= 1 / length;
-            dir_vec.y *= 1 / length;
-            //rotate dir_vector by -90 and scale
-            var angle1 = -Math.PI / 2;
-            var x_1 = Math.cos(angle1) * dir_vec.x - Math.sin(angle1) * dir_vec.y;
-            var y_1 = Math.sin(angle1) * dir_vec.x + Math.cos(angle1) * dir_vec.y;
-            //rotate dir_vector by 90 and scale
-            var angle2 = Math.PI / 2;
-            var x_2 = Math.cos(angle2) * dir_vec.x - Math.sin(angle2) * dir_vec.y;
-            var y_2 = Math.sin(angle2) * dir_vec.x + Math.cos(angle2) * dir_vec.y;
-            //polygon vertex
-            var path = [['M', target.x + x_1 * 1, target.y + y_1 * 1], ['L', center.x + x_1 * 3, center.y + y_1 * 3], ['L', center.x + x_2 * 3, center.y + y_2 * 3], ['L', target.x + x_2 * 1, target.y + y_2 * 1], ['Z']];
-            group.addShape('path', {
-              attrs: {
-                path: path,
-                fill: '#F5222D'
-              }
-            });
-
-            return group.addShape('circle', {
-              attrs: {
-                x: center.x,
-                y: center.y,
-                r: 8,
-                stroke: '#F5222D',
-                lineWidth: 2,
-                fill: '#F5222D'
-              }
-            });
-          }
-        });
-
-        var data = [{
-          value: 5.6
-        }];
-        var chart = new G2.Chart({
-          container: 'chart4',
-          forceFit: true,
-          height: document.querySelector('#chart1').clientHeight,
-          padding: 'auto'
-        });
-        chart.source(data);
-        // 坐标轴
-        chart.coord('polar', {
-          startAngle: -9 / 8 * Math.PI,
-          endAngle: 1 / 9 * Math.PI,
-          radius: 1,
-        });
-        // 刻度
-        chart.scale('value', {
-          min: 0,
-          max: 10,
-          tickInterval: 1,
-          nice: false
-        });
-
-        chart.axis('1', false);
-        chart.axis('value', {
-          zIndex: 2,
-          line: null,
-          label: {
-            offset: -16,
-            textStyle: {
-              fontSize: 18,
-              textAlign: 'center',
-              textBaseline: 'middle'
-            }
-          },
-          subTickCount: 4,
-          subTickLine: {
-            length: -8,
-            stroke: '#fff',
-            strokeOpacity: 1
-          },
-          tickLine: {
-            length: -17,
-            stroke: '#fff',
-            strokeOpacity: 1
-          },
-          grid: null
-        });
-        chart.legend(false);
-        chart.point().position('value*1').shape('pointer').color('#1890FF').active(false);
-
-        // 绘制仪表盘背景
-        chart.guide().arc({
-          zIndex: 0,
-          top: false,
-          start: [0, 0.945],
-          end: [10, 0.945],
-          style: { // 底灰色
-            stroke: '#CBCBCB',
-            lineWidth: 18
-          }
-        });
-        // 绘制指标
-        chart.guide().arc({
-          zIndex: 1,
-          start: [0, 0.945],
-          end: [data[0].value, 0.945],
-          style: {
-            stroke: '#1890FF',
-            lineWidth: 18
-          }
-        });
-
-        // 绘制仪表盘刻度线
-        chart.guide().line({
-          // start: [3, 0.85],
-          start: [0, 0],
-          // end: [3.0035, 0.945],
-          end: [3.0035, 0.945],
-          lineStyle: {
-            stroke: 'red', // 线的颜色
-            lineDash: null, // 虚线的设置
-            lineWidth: 1
-          }
-        });
-        chart.guide().html({
-          position: ['50%', '95%'],
-          html: '<div style="width: 300px;text-align: center;">' + '<p style="font-size: 20px; color: #545454;margin: 0;">合格率</p>' + '<p style="font-size: 36px;color: #545454;margin: 0;">' + data[0].value * 10 + '%</p>' + '</div>'
-        });
-
-        chart.render();
+        // 滚动条回到顶
+        document.querySelector('.list-box3').scrollTo(0, 0)
       },
 
       numberComma(source, length = 3) {
@@ -647,30 +517,45 @@
     min-width: 1200px;
     width: 100%;
     height: 100%;
-    background: #d9e9f9;
+    background: #D7E0EE;
     overflow: hidden;
+    font-size: .4rem;
 
     .header {
-      height: 50px;
+      height: 1.6rem;
       width: 100%;
       display: flex;
       align-items: center;
       color: #fff;
       background: linear-gradient(to right, #5579c4, #7accc6);
-      padding: 0 20px;
+      padding: 0 .4rem;
       justify-content: space-between;
-      .name {
 
+      .name {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: .4rem 0;
+
+        img {
+          width: auto;
+          height: 100%;
+        }
+
+        span {
+          margin-left: .5rem;
+        }
       }
+
       .time {
 
       }
     }
 
     .content {
-      padding: 5px;
+      padding: .3rem;
       width: 100%;
-      height: calc(100% - 50px);
+      height: calc(100% - 1.6rem);
 
       .top, .bottom {
         width: 100%;
@@ -687,38 +572,39 @@
 
         .box {
           background: #fff;
-          margin: 5px;
-          border-radius: 2px;
+          margin: .15rem;
+          border-radius: .16rem;
         }
 
         .box1 {
           display: flex;
           flex-direction: column;
+          background: transparent;
 
           .top-list-box {
-            background: #d9e9f9;
+            /*background: #D7E0EE;*/
             display: flex;
-            padding-bottom: 10px;
+            padding-bottom: .3rem;
 
             .item {
               background: #fff;
-              border-radius: 2px;
-              height: 80px;
+              border-radius: .16rem;
+              height: 2.6rem;
               flex: 1;
-              margin-right: 10px;
-              padding: 15px 0 15px 10px;
+              margin-right: .3rem;
+              padding: .5rem 0 .5rem .6rem;
               display: flex;
               flex-direction: column;
               justify-content: space-between;
 
               .value {
-                color: #5373a9;
-                font-size: 24px;
+                color: #3D6EC0;
+                font-size: .72rem;
                 font-weight: bolder;
               }
 
               .text {
-
+                font-size: .4rem;
               }
 
               &:last-of-type {
@@ -728,31 +614,36 @@
           }
 
           .chart1-box {
-            flex: 1;
-            padding: 10px 0;
+            background: #fff;
+            /*flex: 1;*/
+            padding: .5rem;
             position: relative;
+            border-radius: .16rem;
+            height: calc(100% - 2.9rem);
 
             .list-box1 {
               position: absolute;
-              right: 10px;
-              top: 10px;
+              right: .8rem;
+              top: .5rem;
               display: flex;
+              z-index: 2;
 
               .list {
                 display: flex;
                 align-items: baseline;
-                margin-left: 20px;
+                margin-left: .85rem;
 
                 .total {
-                  margin-right: 10px;
+                  margin-right: .6rem;
 
                   .value {
                     font-weight: bold;
-                    font-size: 20px;
+                    font-size: .6rem;
+                    margin-bottom: .1rem;
                   }
 
                   .text {
-
+                    font-size: .4rem;
                   }
                 }
 
@@ -761,18 +652,19 @@
 
                   .value {
                     font-weight: bold;
-                    font-size: 20px;
+                    font-size: .6rem;
                     display: flex;
                     align-items: baseline;
+                    margin-bottom: .1rem;
 
                     .iconfont {
-                      font-size: 24px;
+                      font-size: .7rem;
                     }
                   }
 
                   .text {
                     color: #000;
-
+                    font-size: .4rem;
                   }
 
                   &.up {
@@ -800,75 +692,7 @@
         .box2 {
           position: relative;
 
-          .nav {
-            display: flex;
-            padding: 10px;
-            justify-content: space-between;
 
-            .nav-item {
-              position: relative;
-              width: 100px;
-              height: 100px;
-              border-radius: 10px;
-              cursor: pointer;
-              background-color: #d9e9f9;
-              margin: 10px;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              padding: 15px 0;
-              justify-content: space-between;
-
-              &:hover {
-                box-shadow: 0px 0px 6px #aaa;
-              }
-
-              .iconfont {
-                font-size: 36px;
-                color: #5a81c4;
-              }
-
-              .text {
-                font-weight: bold;
-              }
-            }
-          }
-
-          .list {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 140px;
-            bottom: 20px;
-            overflow-y: auto;
-            padding: 0 40px;
-            font-size: 16px;
-
-            .li {
-              display: flex;
-              margin-bottom: 15px;
-
-              &:last-of-type {
-                margin-bottom: 0;
-              }
-
-              .iconfont {
-                color: #FF6633;
-                margin-right: 5px;
-                font-weight: bold;
-              }
-
-              .text {
-                flex: 1;
-                margin-right: 10px;
-              }
-
-              .time {
-                font-size: 14px;
-                color: #888;
-              }
-            }
-          }
         }
 
         .box3 {
@@ -881,11 +705,11 @@
 
           .list-box-container {
             width: 60%;
-            padding: 20px 0 20px 20px;
+            padding: .6rem 0 .6rem .4rem;
             /*flex: 1;*/
 
             .list-box3 {
-              padding-right: 30px;
+              padding-right: .9rem;
               height: 100%;
               overflow-y: auto;
 
@@ -893,29 +717,33 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 20px;
+                margin-bottom: .4rem;
+
+                &:last-of-type {
+                  margin-bottom: 0;
+                }
 
                 .index {
-                  font-size: 20px;
+                  font-size: .54rem;
                   color: #5a81c4;
-                  margin-right: 15px;
+                  margin-right: .35rem;
                 }
 
                 .name {
                   flex: 1;
-                  margin-right: 20px;
+                  margin-right: .4rem;
                   width: 0;
                 }
 
                 .status {
-                  font-size: 12px;
-                  padding: 4px 8px;
-                  border-radius: 2px;
-                  background: #5a81c4;
+                  font-size: .36rem;
+                  padding: .08rem .14rem;
+                  border-radius: .08rem;
+                  background: #5975AE;
                   color: #fff;
 
                   &.err {
-                    background: #E64340;
+                    background: #E2340D;
                   }
                 }
               }
@@ -925,10 +753,7 @@
         }
 
         .box4 {
-          #chart4 {
-            width: 30%;
-            height: 100%;
-          }
+          padding: 0 .8rem;
         }
       }
 
@@ -940,22 +765,26 @@
       /deep/ .g2-tooltip {
         position: absolute;
         background-color: rgba(0, 0, 0, 0.7);
-        border-radius: 3px;
+        border-radius: .16rem;
         color: #ddd;
-        font-size: 12px;
-        line-height: 20px;
-        padding: 10px 10px 6px 10px;
-        box-shadow: 0px 0px 10px #aeaeae;
+        font-size: .36rem;
+        line-height: 1.2;
+        padding: .24rem .24rem .1rem .24rem;
+        box-shadow: 0 0 .1rem #aeaeae;
+      }
+
+      /deep/ .g2-tooltip-title {
+        font-size: .4rem;
       }
 
       /deep/ .g2-tooltip-list {
         padding: 0;
         list-style-type: none;
-        margin-top: 5px;
-      }
+        margin-top: .2rem;
 
-      /deep/ .g2-tooltip-li {
-        margin: 5px 0;
+        .g2-tooltip-li {
+          margin: .2rem 0;
+        }
       }
 
       canvas {
