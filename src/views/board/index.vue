@@ -1,15 +1,5 @@
 <template>
   <div class="container">
-    <div class="header">
-      <div class="name">
-        <img class="arrow" src="../../../static/images/logo.png"/>
-        <span>xx医院医疗设备托管系统</span>
-      </div>
-      <div class="time">
-        2019/01/01 周三 17:00:00
-      </div>
-
-    </div>
     <div class="content">
       <div class="top">
         <div class="left box box1">

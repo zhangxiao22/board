@@ -6,8 +6,8 @@ import qs from 'qs'
 let cancel, promiseArr = {};
 const Axios = axios.create({
   // baseURL: 'http://back.yltyxy.com',
-  baseURL: '/api',
-  withCredentials: true,
+  baseURL: 'http://api.stramogroup.com',
+  withCredentials: false,
   timeout: 5000,
   headers: {
     // 'X-Requested-With': 'XMLHttpRequest',

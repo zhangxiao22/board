@@ -18,7 +18,6 @@ module.exports = {
           '^/api': ''
         }
       }
-
     },
 
     // Various Dev Server settings
@@ -53,6 +52,15 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    proxyTable: {
+      '/api': {
+        target: 'http://api.stramogroup.com/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    },
 
     /**
      * Source Maps
