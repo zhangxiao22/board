@@ -6,10 +6,60 @@
   <title>board</title>
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1231232_6z436664ezt.css" type="text/css">
   <script src="static/flexible.js"></script>
+
+  <style>
+    .main-header {
+      height: 1.6rem;
+      width: 100%;
+      min-width: 1200px;
+      display: flex;
+      align-items: center;
+      color: #fff;
+      background: linear-gradient(to right, #5579c4, #7accc6);
+      padding: 0 .4rem;
+      justify-content: space-between;
+    }
+
+    .main-header-name {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: .4rem 0;
+    }
+
+    .main-header-logo {
+      width: auto;
+      height: 100%;
+    }
+
+    .main-header-title {
+      margin-left: .5rem;
+    }
+
+
+    .main-header-time {
+
+    }
+
+    #app {
+      height: calc(100% - 1.6rem);
+    }
+  </style>
 </head>
 <body>
+<div class="main-header">
+  <div class="main-header-name">
+    <img class="main-header-logo" src="../../../static/images/logo.png"/>
+    <span class="main-header-title">xx医院医疗设备托管系统</span>
+  </div>
+  <div class="main-header-time">
+    2019/01/01 周三 17:00:00
+  </div>
+</div>
+
 <div id="app"></div>
 <!-- built files will be auto injected -->
 </body>
 </html>
+
 

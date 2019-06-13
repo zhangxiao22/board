@@ -1,15 +1,5 @@
 <template>
   <div class="container">
-    <div class="header">
-      <div class="name">
-        <img class="arrow" src="../../../static/images/logo.png"/>
-        <span>xx医院医疗设备托管系统</span>
-      </div>
-      <div class="time">
-        2019/01/01 周三 17:00:00
-      </div>
-
-    </div>
     <div class="content">
       <div class="top">
         <div class="left box box1">
@@ -521,41 +511,11 @@
     overflow: hidden;
     font-size: .4rem;
 
-    .header {
-      height: 1.6rem;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      color: #fff;
-      background: linear-gradient(to right, #5579c4, #7accc6);
-      padding: 0 .4rem;
-      justify-content: space-between;
-
-      .name {
-        display: flex;
-        align-items: center;
-        height: 100%;
-        padding: .4rem 0;
-
-        img {
-          width: auto;
-          height: 100%;
-        }
-
-        span {
-          margin-left: .5rem;
-        }
-      }
-
-      .time {
-
-      }
-    }
-
     .content {
       padding: .3rem;
       width: 100%;
-      height: calc(100% - 1.6rem);
+      height: 100%;
+      /*height: calc(100% - 1.6rem);*/
 
       .top, .bottom {
         width: 100%;
