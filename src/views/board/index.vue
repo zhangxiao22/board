@@ -293,18 +293,32 @@
         this.chart1.data.forEach(function (data, dataIndex) {
           if (data['支出'] > data['收入']) {
             // 辅助线
-            chart.guide().line({
-              top: true,
-              start: [dataIndex - .25, -data['收入']],
-              end: [dataIndex + .25, -data['收入']],
+            // chart.guide().line({
+            //   top: true,
+            //   start: [dataIndex - .25, -data['收入']],
+            //   end: [dataIndex + .25, -data['收入']],
+            //
+            //   lineStyle: {
+            //     // fill: 'red',
+            //     stroke: '#f2637b', // 线的颜色
+            //     lineDash: null, // 虚线的设置
+            //     lineWidth: 1 // 线的宽度
+            //   }, // 图形样式配置
+            //
+            // });
 
-              lineStyle: {
-                // fill: 'red',
-                stroke: '#f2637b', // 线的颜色
-                lineDash: null, // 虚线的设置
-                lineWidth: 1 // 线的宽度
-              }, // 图形样式配置
-
+            // 辅助框
+            chart.guide().regionFilter({
+              top: true, // 指定 giude 是否绘制在 canvas 最上层，默认为 false, 即绘制在最下层
+              start: [dataIndex - .25, -data['收入']], // 辅助框起始位置，值为原始数据值，支持 callback
+              end: [dataIndex + .25, -data['支出']],// 辅助框结束位置，值为原始数据值，支持 callback
+              color: '#E2340D',
+              // style: {
+              //   lineWidth: 0, // 辅助框的边框宽度
+              //   fill: '#e60308', // 辅助框填充的颜色
+              //   fillOpacity: 1, // 辅助框的背景透明度
+              //   stroke: '#e60303' // 辅助框的边框颜色设置
+              // } // 辅助框的图形样式属性
             });
           }
         });
