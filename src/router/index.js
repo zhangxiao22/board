@@ -13,5 +13,22 @@ export default new Router({
       },
       component: () => import('@/views/board/index')
     },
+    {
+      path: '/eventList',
+      name: 'eventList',
+      meta: {
+        title: '数据板'
+      },
+      component: () => import('@/views/board/eventList')
+    },
+    {
+      path: '/kpi',
+      name: 'kpi',
+      meta: {
+        title: '数据板'
+      },
+      component: () => import('@/views/board/kpi')
+    },
   ]
 })
+
