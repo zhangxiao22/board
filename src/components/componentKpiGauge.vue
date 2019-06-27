@@ -22,6 +22,8 @@
   </div>
 </template>
 <script>
+  import G2 from '@antv/g2';
+  import {DataSet} from '@antv/data-set'
   import {kpiList} from '@/api/api'
   import {getRem} from '@/common/common'
 
