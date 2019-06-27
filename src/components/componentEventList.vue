@@ -15,7 +15,7 @@
       <div class="li" v-for="(item,key) of list" :key="key">
         <span class="iconfont icon-jingbao"></span>
         <span class="text elip" title="飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方">
-              飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方
+            {{mockList[key]}}
             </span>
         <span class="time">2019-01-01 11:11:11</span>
       </div>
@@ -61,6 +61,7 @@
         list: [],
         interval: null,
         cur_index: 0,
+        mockList: []
       }
     },
     watch: {},
@@ -92,6 +93,15 @@
       getList(key) {
         eventList().then(res => {
           this.list = res.Data[key].Detail
+          this.mockList = [
+            '放射科1室医用磁共振设备无法开机，请速去维修',
+            '介入科断层扫描设备故障，请速去处理',
+            '呼吸科上呼吸道内窥镜EW34-49配件损坏，请速去更换',
+            '消化内科电子上消化道内窥镜显示器蓝屏，请速去处理',
+            '放射科医用磁共振设备无法开机，请速去维修',
+            '骨科断层扫描设备故障，请速去处理',
+            '胸外科上呼吸道内窥镜EW34-49配件损坏，请速去更换'
+          ]
           this.navList.forEach((n) => {
             n.count = res.Data[n.key].Count
           })

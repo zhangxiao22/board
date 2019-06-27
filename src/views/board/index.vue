@@ -198,39 +198,97 @@
           data: [{
             name: '骨科',
             count: 55,
-            list: Array(...Array(55)).map((n, i) => {
-              return {name: '骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备', status: Math.random() > .5}
-            }),
+            // list: Array(...Array(55)).map((n, i) => {
+            //   return {name: '骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备', status: Math.random() > .5}
+            // }),
+            list: [
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+            ]
           }, {
             name: '呼吸科',
             count: 33,
-            list: Array(...Array(33)).map((n, i) => {
-              return {name: '呼吸科设备', status: Math.random() > .5}
-            }),
+            // list: Array(...Array(33)).map((n, i) => {
+            //   return {name: '呼吸科设备', status: Math.random() > .5}
+            // }),
+            list: [
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+            ]
           }, {
             name: '放射科',
             count: 44,
-            list: Array(...Array(44)).map((n, i) => {
-              return {name: '放射科设备', status: Math.random() > .5}
-            }),
+            // list: Array(...Array(44)).map((n, i) => {
+            //   return {name: '放射科设备', status: Math.random() > .5}
+            // }),
+            list: [
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+            ]
           }, {
             name: '手术科',
             count: 22,
-            list: Array(...Array(22)).map((n, i) => {
-              return {name: '手术科设备', status: Math.random() > .5}
-            }),
+            // list: Array(...Array(22)).map((n, i) => {
+            //   return {name: '手术科设备', status: Math.random() > .5}
+            // }),
+            list: [
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+            ]
           }, {
             name: '急诊科',
             count: 11,
-            list: Array(...Array(22)).map((n, i) => {
-              return {name: '急诊科设备', status: Math.random() > .5}
-            }),
+            // list: Array(...Array(22)).map((n, i) => {
+            //   return {name: '急诊科设备', status: Math.random() > .5}
+            // }),
+            list: [
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+            ]
           }, {
             name: '血液科',
             count: 5,
-            list: Array(...Array(5)).map((n, i) => {
-              return {name: '血液科设备', status: Math.random() > .5}
-            }),
+            // list: Array(...Array(5)).map((n, i) => {
+            //   return {name: '血液科设备', status: Math.random() > .5}
+            // }),
+            list: [
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+            ]
           }],
           interval: null,
           activeIndex: 0,
@@ -293,18 +351,32 @@
         this.chart1.data.forEach(function (data, dataIndex) {
           if (data['支出'] > data['收入']) {
             // 辅助线
-            chart.guide().line({
-              top: true,
-              start: [dataIndex - .25, -data['收入']],
-              end: [dataIndex + .25, -data['收入']],
+            // chart.guide().line({
+            //   top: true,
+            //   start: [dataIndex - .25, -data['收入']],
+            //   end: [dataIndex + .25, -data['收入']],
+            //
+            //   lineStyle: {
+            //     // fill: 'red',
+            //     stroke: '#f2637b', // 线的颜色
+            //     lineDash: null, // 虚线的设置
+            //     lineWidth: 1 // 线的宽度
+            //   }, // 图形样式配置
+            //
+            // });
 
-              lineStyle: {
-                // fill: 'red',
-                stroke: '#f2637b', // 线的颜色
-                lineDash: null, // 虚线的设置
-                lineWidth: 1 // 线的宽度
-              }, // 图形样式配置
-
+            // 辅助框
+            chart.guide().regionFilter({
+              top: true, // 指定 giude 是否绘制在 canvas 最上层，默认为 false, 即绘制在最下层
+              start: [dataIndex - .25, -data['收入']], // 辅助框起始位置，值为原始数据值，支持 callback
+              end: [dataIndex + .25, -data['支出']],// 辅助框结束位置，值为原始数据值，支持 callback
+              color: '#E2340D',
+              // style: {
+              //   lineWidth: 0, // 辅助框的边框宽度
+              //   fill: '#e60308', // 辅助框填充的颜色
+              //   fillOpacity: 1, // 辅助框的背景透明度
+              //   stroke: '#e60303' // 辅助框的边框颜色设置
+              // } // 辅助框的图形样式属性
             });
           }
         });
@@ -511,41 +583,11 @@
     overflow: hidden;
     font-size: .4rem;
 
-    .header {
-      height: 1.6rem;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      color: #fff;
-      background: linear-gradient(to right, #5579c4, #7accc6);
-      padding: 0 .4rem;
-      justify-content: space-between;
-
-      .name {
-        display: flex;
-        align-items: center;
-        height: 100%;
-        padding: .4rem 0;
-
-        img {
-          width: auto;
-          height: 100%;
-        }
-
-        span {
-          margin-left: .5rem;
-        }
-      }
-
-      .time {
-
-      }
-    }
-
     .content {
       padding: .3rem;
       width: 100%;
-      height: calc(100% - 1.6rem);
+      height: 100%;
+      /*height: calc(100% - 1.6rem);*/
 
       .top, .bottom {
         width: 100%;

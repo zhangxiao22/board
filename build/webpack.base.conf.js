@@ -12,7 +12,7 @@ function resolve(dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    normal: ['babel-polyfill', './src/main.js']
   },
   output: {
     path: config.build.assetsRoot,
@@ -42,6 +42,19 @@ module.exports = {
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
+        test: /node_modules[\\\/]vis[\\\/].*\.js$/,
+        loader: 'babel-loader',
+        query: {
+          cacheDirectory: true,
+          presets: [ "babel-preset-es2015" ].map(require.resolve),
+          plugins: [
+            "transform-es3-property-literals", // #2452
+            "transform-es3-member-expression-literals", // #2566
+            "transform-runtime" // #2566
+          ]
+        }
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
@@ -61,7 +74,7 @@ module.exports = {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 100000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       },

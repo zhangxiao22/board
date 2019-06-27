@@ -1,13 +1,13 @@
 import axios from 'axios'
 import qs from 'qs'
-// import {BASE_URL} from '../common/common'
+import {BASE_URL} from '../common/common'
 // import that from '../main.js';
 
 let cancel, promiseArr = {};
 const Axios = axios.create({
-  // baseURL: 'http://back.yltyxy.com',
-  baseURL: 'http://api.stramogroup.com',
-  withCredentials: false,
+  baseURL: BASE_URL,
+  // baseURL: '/api',
+  // withCredentials: true,
   timeout: 5000,
   headers: {
     // 'X-Requested-With': 'XMLHttpRequest',
