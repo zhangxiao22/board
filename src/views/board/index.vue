@@ -575,6 +575,9 @@
   }
 </script>
 <style scoped lang="less">
+  .main-header{
+    display: block;
+  }
   .container {
     min-width: 1200px;
     width: 100%;

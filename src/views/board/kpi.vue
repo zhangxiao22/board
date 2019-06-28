@@ -24,8 +24,8 @@
 
 </style>
 <style>
-  .main-header {
+  /* .main-header {
     display: none;
-  }
+  } */
 </style>
 
