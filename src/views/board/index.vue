@@ -325,7 +325,6 @@
 
 
         chart.tooltip({
-          itemTpl: '<li></span>{name}:+{value}</li>',
           inPlot: true,
           useHtml: true,
           htmlContent: function (title, items) {
@@ -417,6 +416,21 @@
         chart.intervalStack().position('name*value').color('opinion', function (opinion) {
           return colorMap[opinion];
         });
+
+        chart.on('click', ev => {
+          // 获取逼近的点 point 的原始数据集合
+          var records = chart.getSnapRecords({x: ev.x, y: ev.y});
+          console.log(records);
+          const name = records[0]._origin.name
+          _this.$router.push({
+            path: '/radar',
+            query: {
+              name
+            }
+          })
+        });
+
+
         chart.render();
       },
       renderChart3() {
