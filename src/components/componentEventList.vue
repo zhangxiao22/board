@@ -11,7 +11,7 @@
         <div class="count center-center">{{item.count}}</div>
       </div>
     </div>
-    <div class="component-event-list">
+    <div class="component-event-list" @click="link">
       <div class="li" v-for="(item,key) of list" :key="key">
         <span class="iconfont icon-jingbao"></span>
         <span class="text elip" title="飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方">
@@ -71,6 +71,9 @@
       this.autoLoop()
     },
     methods: {
+      link() {
+        window.open('/index-FujiManagerRecall.html', '_self')
+      },
       autoLoop() {
         this.interval = setTimeout(() => {
           this.cur_index++
@@ -192,6 +195,7 @@
         margin-bottom: .58rem;
         align-items: center;
         font-size: .4rem;
+        cursor: pointer;
 
         &:last-of-type {
           margin-bottom: 0;

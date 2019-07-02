@@ -306,6 +306,8 @@
         this.renderChart3()
       })
       this.autoSelectchart3()
+
+
     },
     methods: {
       getqueryOverview() {
@@ -529,7 +531,7 @@
         // 辅助文本
         chart.guide().html({
           position: ['50%', '50%'],
-          html: `<div style="font-size: .4rem;text-align: center;width: 10em;">
+          html: `<div class="total-repair" style="font-size: .4rem;text-align: center;width: 10em;cursor: pointer;">
                   <span style="font-size:.8rem;font-weight: bold;">${total}</span>件
                   <div style="margin-top: .25rem">今日总报修</div>
                 </div>`,
@@ -544,6 +546,10 @@
             cursor: 'pointer'
           }).color('name')
         chart.render();
+
+        this.addEvent(true)
+
+
         // 默认选中
         this.chart3.interval.setSelected(this.chart3.data[this.chart3.activeIndex]);
         this.getchart3List(this.chart3.activeIndex)
@@ -585,6 +591,21 @@
         source[0] = source[0].replace(new RegExp('(\\d)(?=(\\d{' + length + '})+$)', 'ig'), "$1,");
         return source.join(".");
       },
+      clickEvent() {
+        window.open('/index-FujiManagerRepair.html', '_self')
+      },
+      addEvent(flag) {
+        let ele = document.querySelector('.total-repair')
+        if (!ele) return
+        if (flag) {
+          ele.addEventListener('click', this.clickEvent)
+        } else {
+          ele.document.querySelector('.total-repair').removeEventListener('click', this.clickEvent)
+        }
+      }
+    },
+    beforeDestroy() {
+      this.addEvent(false)
     }
   }
 </script>
