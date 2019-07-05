@@ -632,9 +632,12 @@
 
             .list-box1 {
               position: absolute;
-              right: .8rem;
+              right: 0;
+              padding-right: .8rem;
+              left: 0;
               top: .5rem;
               display: flex;
+              justify-content: flex-end;
               z-index: 2;
 
               .list {

@@ -7,7 +7,7 @@
           <div class="list-box1">
             <div class="list">
               <div class="total">
-                <div class="value">{{numberComma(2260.09)}}</div>
+                <div class="value">{{numberComma(22608.09)}}</div>
                 <div class="text">总收入（万元）</div>
               </div>
               <div class="status up">
@@ -22,7 +22,7 @@
             </div>
             <div class="list">
               <div class="total">
-                <div class="value">{{numberComma(1563.09)}}</div>
+                <div class="value">{{numberComma(99999.09)}}</div>
                 <div class="text">总支出（万元）</div>
               </div>
               <div class="status down">
@@ -52,15 +52,7 @@
       </div>
     </div>
     <div class="b-right">
-      <div class="b-right-content">
-        <div class="b-timeline">
-          <timeline>
-            <timeline-title bg-color="#E64340" font-color="#000">{{timelineTitle}}</timeline-title>
-            <timeline-item v-for="(item,key) in currentTimeline" :key="key" :bg-color="item.color">{{item.event}}
-            </timeline-item>
-          </timeline>
-        </div>
-      </div>
+      <div class="b-right-content"></div>
     </div>
   </div>
 </template>
@@ -72,169 +64,87 @@
   import {getRem} from '@/common/common'
   import EventList from '../../components/componentEventList'
   import KpiList from '../../components/componentKpiGauge'
-  import {Timeline, TimelineItem, TimelineTitle} from 'vue-cute-timeline'
 
   export default {
     components: {
       EventList,
       KpiList,
-      Timeline,
-      TimelineItem,
-      TimelineTitle
     },
 
     data() {
       return {
-        items: [
-          {
-            tag: '2019-02-12',
-            content: '测试内容'
-          },
-          {
-            tag: '2019-02-13',
-            type: 'circle',
-            content: '练习内容'
-          }
-        ],
-        currentTimeline: [
-          {
-            color: '#9dd8e0',
-            event: '2017年10月11日 设备安装'
-          },
-        ],
-        timelineList1: [
-          {
-            color: '#9dd8e0',
-            event: '2017年10月11日 设备安装'
-          },
-          {
-            color: '#5579c4',
-            event: '2017年11月1日 日常巡检'
-          },
-          {
-            color: '#7accc6',
-            event: '2017年12月11日 计划保养'
-          },
-          {
-            color: '#ffb91a',
-            event: '2018年1月3日 设备报修'
-          },
-          {
-            color: '#ffb91a',
-            event: '2017年12月21日 设备强检'
-          },
-          {
-            color: '#7accc6',
-            event: '2018年3月15日 设备校正'
-          },
-          {
-            color: '#7accc6',
-            event: '2018年11月1日 设备保养'
-          },
-          {
-            color: 'red',
-            event: '2018年12月3日 设备报修'
-          },
-          {
-            color: '#ffb91a',
-            event: '2018年12月21日 设备强检'
-          },
-          {
-            color: '#7accc6',
-            event: '2019年3月15日 设备校正'
-          },
-          {
-            color: '#7accc6',
-            event: '2019年4月1日 设备保养'
-          },
-        ],
-        timelineList2: [
-          {
-            color: '#ffb91a',
-            event: '2018年1月3日 设备报修'
-          },
-          {
-            color: '#ffb91a',
-            event: '2017年12月21日 设备强检'
-          },
-          {
-            color: '#7accc6',
-            event: '2018年3月15日 设备校正'
-          },
-          {
-            color: '#7accc6',
-            event: '2018年11月1日 设备保养'
-          },
-          {
-            color: '#ffb91a',
-            event: '2018年12月3日 设备报修'
-          },
-
-        ],
         name1: this.$route.query.name,
         name2: '',
-        timelineTitle: '电子上消化道内窥镜 EG-530WR',
-        timelineItems1: [],
         chart1: {
           data: [{
-            name: "上呼吸道内窥镜EW34-49",
-            '收入': 80,
-            '支出': 60,
-            '设备价值': 480,
+            name: "设备1",
+            '收入': 8000,
+            '支出': 6000,
+            '设备数量': 40,
+            '设备价值': 4800,
             '服务人次': 99,
           }, {
-            name: "上呼吸道内窥镜EW34-42",
-            '收入': 40,
-            '支出': 11,
-            '设备价值': 880,
-            '服务人次': 234,
+            name: "设备2",
+            '收入': 4000,
+            '支出': 1111,
+            '设备数量': 30,
+            '设备价值': 8800,
+            '服务人次': 2334,
           }, {
-            name: "十二指肠内窥镜EW34-96",
-            '收入': 330,
-            '支出': 234,
-            '设备价值': 980,
+            name: "设备3",
+            '收入': 3300,
+            '支出': 2345,
+            '设备数量': 50,
+            '设备价值': 9800,
             '服务人次': 99,
           }, {
-            name: "电子上消化道内窥镜 EG-531WR",
-            '收入': 444,
-            '支出': 580,
-            '设备价值': 880,
-            '服务人次': 555,
+            name: "设备4",
+            '收入': 4444,
+            '支出': 5800,
+            '设备数量': 47,
+            '设备价值': 8800,
+            '服务人次': 5555,
           }, {
-            name: "电子上消化道内窥镜 EG-533WR",
-            '收入': 999,
-            '支出': 490,
-            '设备价值': 880,
-            '服务人次': 666,
+            name: "设备5",
+            '收入': 9999,
+            '支出': 4900,
+            '设备数量': 53,
+            '设备价值': 8800,
+            '服务人次': 6666,
           }, {
-            name: "电子上消化道内窥镜 EG-520WR",
-            '收入': 666,
-            '支出': 290,
-            '设备价值': 880,
-            '服务人次': 22
+            name: "设备6",
+            '收入': 6666,
+            '支出': 2900,
+            '设备数量': 44,
+            '设备价值': 8800,
+            '服务人次': 222,
           }, {
-            name: "电子上消化道内窥镜 EG-535WR",
-            '收入': 222,
-            '支出': 333,
-            '设备价值': 880,
+            name: "设备7",
+            '收入': 2222,
+            '支出': 3333,
+            '设备数量': 41,
+            '设备价值': 8800,
             '服务人次': 28,
           }, {
-            name: "电子上消化道内窥镜 EG-520WR",
-            '收入': 111,
-            '支出': 222,
-            '设备价值': 880,
+            name: "设备8",
+            '收入': 1111,
+            '支出': 2222,
+            '设备数量': 40,
+            '设备价值': 8800,
             '服务人次': 333,
           }, {
-            name: "电子上消化道内窥镜 EG-330WR",
+            name: "设备9",
             '收入': 333,
-            '支出': 112,
-            '设备价值': 880,
+            '支出': 1123,
+            '设备数量': 30,
+            '设备价值': 8800,
             '服务人次': 101,
           }, {
-            name: "电子上消化道内窥镜 EG-530WR",
-            '收入': 123,
-            '支出': 222,
-            '设备价值': 880,
+            name: "设备10",
+            '收入': 1232,
+            '支出': 2222,
+            '设备数量': 35,
+            '设备价值': 8800,
             '服务人次': 111,
           }],
         },
@@ -265,21 +175,21 @@
 
         _this.chart3.data = [{
           item: '维修',
-          value: _this.random(2, 10),
+          value: _this.random(0, 10),
         }, {
           item: '巡检',
-          value: _this.random(2, 10),
+          value: _this.random(0, 10),
         }, {
           item: '保养',
-          value: _this.random(2, 10),
+          value: _this.random(0, 10),
 
         }, {
           item: '校正',
-          value: _this.random(2, 10),
+          value: _this.random(0, 10),
 
         }, {
           item: '强检',
-          value: _this.random(2, 10),
+          value: _this.random(0, 10),
 
         }]
         var _DataSet = DataSet,
@@ -331,18 +241,6 @@
 
 
         this.chart1.data.forEach(function (data, dataIndex) {
-          // chart.guide().region({
-          //   top: true, // 指定 giude 是否绘制在 canvas 最上层，默认为 false, 即绘制在最下层
-          //   start: [dataIndex - .25, 'min'], // 辅助框起始位置，值为原始数据值，支持 callback
-          //   end: [dataIndex + .25, 'max'],// 辅助框结束位置，值为原始数据值，支持 callback
-          //   style: {
-          //     lineWidth: 0, // 辅助框的边框宽度
-          //     fill: '#f80', // 辅助框填充的颜色
-          //     fillOpacity: 0.1, // 辅助框的背景透明度
-          //     stroke: '#ccc' // 辅助框的边框颜色设置
-          //   } // 辅助框的图形样式属性
-          // });
-
 
           if (data['支出'] > data['收入']) {
             // 辅助框
@@ -369,8 +267,9 @@
             return `<div class="g2-tooltip">
                     <div class="g2-tooltip-title">${title}</div>
                     <ul class="g2-tooltip-list">
+                      <li class="g2-tooltip-li">设备数量：${_this.numberComma(data.设备数量)}</li>
                       <li class="g2-tooltip-li">设备价值：${_this.numberComma(data.设备价值)}万</li>
-                      <li class="g2-tooltip-li">服务人次：${_this.numberComma(data.服务人次)}</li>
+                      <li class="g2-tooltip-li">服务人次：${_this.numberComma(data.服务人次)}万</li>
                       <li class="g2-tooltip-li">收入：${_this.numberComma(data.收入)}万</li>
                       <li class="g2-tooltip-li">支出：${_this.numberComma(data.支出)}万</li>
                     </ul>
@@ -456,8 +355,6 @@
           const name = records[0]._origin.name
           _this.name2 = name
           _this.chart3.chart.changeData(_this.data3());
-          _this.timelineTitle = name;
-          _this.currentTimeline.length == _this.timelineList1.length ? _this.currentTimeline = _this.timelineList2 : _this.currentTimeline = _this.timelineList1;
         });
 
         chart.render();
@@ -526,6 +423,7 @@
           },
           itemTpl: '<li style="font-size: .4rem;">次数：{value}</li>'
         });
+        // _this.chart3.chart.tooltip(false)
         _this.chart3.chart.line().position('item*score').color('user').size(getRem(.01));
         // chart.point().position('item*score').color('user').shape('circle').size(getRem(.04)).style({
         //   stroke: '#fff',
@@ -588,12 +486,9 @@
 
           .list-box1 {
             position: absolute;
-            right: 0;
-            left: 0;
-            padding-right: .2rem;
+            right: .25rem;
             top: .5rem;
             display: flex;
-            justify-content: flex-end;
             z-index: 2;
 
             .list {
@@ -667,11 +562,11 @@
         position: relative;
 
         .name {
+          font-size: .5rem;
+          font-weight: bold;
           position: absolute;
           left: .5rem;
           top: .5rem;
-          font-size: .5rem;
-          font-weight: bold;
         }
 
         #chart3 {
@@ -713,49 +608,6 @@
         height: 100%;
         border-radius: .16rem;
         background: #fff;
-        padding: .8rem;
-        overflow-y: auto;
-
-        .b-timeline {
-          width: 100%;
-          height: 100%;
-          overflow-y: auto;
-
-          /deep/ .timeline {
-            margin: 0.5rem 1rem;
-
-            &:after {
-              top: 1.6rem;
-              height: auto;
-              bottom: .8rem;
-            }
-
-            .timeline-title {
-              font-size: .6rem;
-              font-weight: bold;
-              margin: -.15em 0 .5rem 0;
-              cursor: default;
-            }
-
-            .timeline-item {
-              margin: 1.5em 0 0 .5rem;
-            }
-
-            .timeline-circle {
-              top: 0;
-              width: .3rem;
-              height: .3rem;
-              left: -.65rem;
-            }
-
-            .timeline-title-circle {
-              width: 0;
-              height: 0;
-              display: none;
-            }
-          }
-        }
-
       }
     }
 
