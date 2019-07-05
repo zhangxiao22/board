@@ -389,7 +389,7 @@
           }
         });
         _this.chart3.chart.coord('polar', {
-          radius: 0.8
+          radius: 0.6
         });
         _this.chart3.chart.axis('item', {
           line: null,
@@ -427,7 +427,15 @@
           }
         });
         _this.chart3.chart.legend(false)
-        _this.chart3.chart.tooltip(false)
+        _this.chart3.chart.tooltip({
+          // showTitile: false,
+          'g2-tooltip': {
+            'background-color': 'rgba(0, 0, 0, 0.7)',
+            color: '#ddd',
+          },
+          itemTpl: '<li style="font-size: .4rem;">次数：{value}</li>'
+        });
+        // _this.chart3.chart.tooltip(false)
         _this.chart3.chart.line().position('item*score').color('user').size(getRem(.01));
         // chart.point().position('item*score').color('user').shape('circle').size(getRem(.04)).style({
         //   stroke: '#fff',
