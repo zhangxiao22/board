@@ -5,7 +5,7 @@
         <div class="left box box1">
           <div class="top-list-box">
             <div class="item">
-              <div class="value">{{numberComma(112233)}}</div>
+              <div class="value">{{numberComma(1133)}}</div>
               <div class="text">设备数量（台）</div>
             </div>
             <div class="item">
@@ -18,7 +18,7 @@
             </div>
             <div class="item">
               <div class="value">{{numberComma(123)}}</div>
-              <div class="text">当年服务人次</div>
+              <div class="text">当年服务人次(万人)</div>
             </div>
           </div>
           <div class="chart1-box">
@@ -34,13 +34,13 @@
                     <span class="iconfont icon-shang"></span>
                   </div>
                   <div class="text">
-                    同比
+                    同比去年
                   </div>
                 </div>
               </div>
               <div class="list">
                 <div class="total">
-                  <div class="value">{{numberComma(99999.09)}}</div>
+                  <div class="value">{{numberComma(16530.01)}}</div>
                   <div class="text">总支出（万元）</div>
                 </div>
                 <div class="status down">
@@ -49,7 +49,7 @@
                     <span class="iconfont icon-shang"></span>
                   </div>
                   <div class="text">
-                    同比
+                    同比去年
                   </div>
                 </div>
               </div>
@@ -102,102 +102,102 @@
         chart1: {
           data: [{
             name: "骨科",
-            '收入': 8000,
-            '支出': 6000,
+            '收入': 800,
+            '支出': 600,
             '设备数量': 40,
             '设备价值': 4800,
             '服务人次': 99,
           }, {
             name: "呼吸科",
-            '收入': 4000,
-            '支出': 1111,
+            '收入': 400,
+            '支出': 111,
             '设备数量': 30,
             '设备价值': 8800,
             '服务人次': 2334,
           }, {
             name: "放射科",
-            '收入': 3300,
-            '支出': 2345,
-            '设备数量': 50,
+            '收入': 330,
+            '支出': 234,
+            '设备数量': 5,
             '设备价值': 9800,
             '服务人次': 99,
           }, {
             name: "放射科2",
-            '收入': 4444,
-            '支出': 5800,
+            '收入': 444,
+            '支出': 580,
             '设备数量': 47,
             '设备价值': 8800,
-            '服务人次': 5555,
+            '服务人次': 555,
           }, {
             name: "放射科0",
-            '收入': 9999,
-            '支出': 4900,
-            '设备数量': 53,
+            '收入': 999,
+            '支出': 490,
+            '设备数量': 5,
             '设备价值': 8800,
-            '服务人次': 6666,
+            '服务人次': 666,
           }, {
             name: "放射科3",
-            '收入': 6666,
-            '支出': 2900,
-            '设备数量': 44,
+            '收入': 666,
+            '支出': 290,
+            '设备数量': 4,
             '设备价值': 8800,
             '服务人次': 222,
           }, {
             name: "放射科4",
-            '收入': 2222,
-            '支出': 3333,
-            '设备数量': 41,
+            '收入': 222,
+            '支出': 333,
+            '设备数量': 4,
             '设备价值': 8800,
             '服务人次': 28,
           }, {
             name: "放射科5",
-            '收入': 1111,
-            '支出': 2222,
-            '设备数量': 40,
+            '收入': 111,
+            '支出': 222,
+            '设备数量': 4,
             '设备价值': 8800,
             '服务人次': 333,
           }, {
             name: "放射科6",
             '收入': 333,
-            '支出': 1123,
-            '设备数量': 30,
+            '支出': 112,
+            '设备数量': 3,
             '设备价值': 8800,
             '服务人次': 101,
           }, {
             name: "放射科7",
-            '收入': 1232,
-            '支出': 2222,
-            '设备数量': 35,
+            '收入': 123,
+            '支出': 82,
+            '设备数量': 3,
             '设备价值': 8800,
             '服务人次': 111,
           }, {
             name: "放射科8",
-            '收入': 1753,
-            '支出': 1114,
-            '设备数量': 49,
+            '收入': 175,
+            '支出': 111,
+            '设备数量': 4,
             '设备价值': 8800,
             '服务人次': 69,
           }, {
             name: "放射科9",
-            '收入': 3884,
-            '支出': 3455,
-            '设备数量': 36,
+            '收入': 388,
+            '支出': 345,
+            '设备数量': 3,
             '设备价值': 8800,
-            '服务人次': 2.3,
+            '服务人次': 23,
           }, {
             name: "放射科10",
-            '收入': 3560,
-            '支出': 2345,
-            '设备数量': 41,
+            '收入': 356,
+            '支出': 234,
+            '设备数量': 4,
             '设备价值': 8800,
-            '服务人次': 3.4,
+            '服务人次': 34,
           }],
         },
 
         chart3: {
           data: [{
             name: '骨科',
-            count: 55,
+            count: 5,
             // list: Array(...Array(55)).map((n, i) => {
             //   return {name: '骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备', status: Math.random() > .5}
             // }),
@@ -213,7 +213,7 @@
             ]
           }, {
             name: '呼吸科',
-            count: 33,
+            count: 3,
             // list: Array(...Array(33)).map((n, i) => {
             //   return {name: '呼吸科设备', status: Math.random() > .5}
             // }),
@@ -227,7 +227,7 @@
             ]
           }, {
             name: '放射科',
-            count: 44,
+            count: 4,
             // list: Array(...Array(44)).map((n, i) => {
             //   return {name: '放射科设备', status: Math.random() > .5}
             // }),
@@ -242,7 +242,7 @@
             ]
           }, {
             name: '手术科',
-            count: 22,
+            count: 2,
             // list: Array(...Array(22)).map((n, i) => {
             //   return {name: '手术科设备', status: Math.random() > .5}
             // }),
@@ -260,7 +260,7 @@
             ]
           }, {
             name: '急诊科',
-            count: 11,
+            count: 1,
             // list: Array(...Array(22)).map((n, i) => {
             //   return {name: '急诊科设备', status: Math.random() > .5}
             // }),
@@ -592,7 +592,7 @@
         return source.join(".");
       },
       clickEvent() {
-        window.open('/index-FujiManagerRepair.html', '_self')
+        top.open('page/index-FujiManagerRepair.html', '_self')
       },
       addEvent(flag) {
         let ele = document.querySelector('.total-repair')

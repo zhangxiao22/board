@@ -72,7 +72,7 @@
     },
     methods: {
       link() {
-        window.open('/index-FujiManagerRecall.html', '_self')
+        top.open('page/index-FujiManagerRecall.html', '_self')
       },
       autoLoop() {
         this.interval = setTimeout(() => {
