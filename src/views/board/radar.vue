@@ -44,7 +44,7 @@
         <div class="name">{{name2}}</div>
         <div id="chart3"></div>
         <div class="list3">
-          <div class="item" v-for="(list,key) of chart3.data" :key="key">
+          <div class="item" v-for="(list,key) of chart3.list" :key="key">
             <span class="title">{{list.item}}次数：</span>
             <span class="count">{{list.value}}次</span>
           </div>
@@ -56,7 +56,7 @@
         <div class="b-timeline">
           <timeline>
             <timeline-title bg-color="#E64340" font-color="#000">{{timelineTitle}}</timeline-title>
-            <timeline-item v-for="(item,key) in currentTimeline" :key="key" :bg-color="item.color">{{item.event}}
+            <timeline-item v-for="(item,key) in timeline" :key="key" :bg-color="item.color">{{item.event}}
             </timeline-item>
           </timeline>
         </div>
@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-  import {} from '@/api/api'
+  import {equipments, radar, timeline} from '@/api/api'
   import G2 from '@antv/g2';
   import {DataSet} from '@antv/data-set'
   import {queryOverview} from '@/api/api'
@@ -85,162 +85,17 @@
 
     data() {
       return {
-        items: [
-          {
-            tag: '2019-02-12',
-            content: '测试内容'
-          },
-          {
-            tag: '2019-02-13',
-            type: 'circle',
-            content: '练习内容'
-          }
-        ],
-        currentTimeline: [
-          {
-            color: '#9dd8e0',
-            event: '2017年10月11日 设备安装'
-          },
-        ],
-        timelineList1: [
-          {
-            color: '#9dd8e0',
-            event: '2017年10月11日 设备安装'
-          },
-          {
-            color: '#5579c4',
-            event: '2017年11月1日 日常巡检'
-          },
-          {
-            color: '#7accc6',
-            event: '2017年12月11日 计划保养'
-          },
-          {
-            color: '#ffb91a',
-            event: '2018年1月3日 设备报修'
-          },
-          {
-            color: '#ffb91a',
-            event: '2017年12月21日 设备强检'
-          },
-          {
-            color: '#7accc6',
-            event: '2018年3月15日 设备校正'
-          },
-          {
-            color: '#7accc6',
-            event: '2018年11月1日 设备保养'
-          },
-          {
-            color: 'red',
-            event: '2018年12月3日 设备报修'
-          },
-          {
-            color: '#ffb91a',
-            event: '2018年12月21日 设备强检'
-          },
-          {
-            color: '#7accc6',
-            event: '2019年3月15日 设备校正'
-          },
-          {
-            color: '#7accc6',
-            event: '2019年4月1日 设备保养'
-          },
-        ],
-        timelineList2: [
-          {
-            color: '#ffb91a',
-            event: '2018年1月3日 设备报修'
-          },
-          {
-            color: '#ffb91a',
-            event: '2017年12月21日 设备强检'
-          },
-          {
-            color: '#7accc6',
-            event: '2018年3月15日 设备校正'
-          },
-          {
-            color: '#7accc6',
-            event: '2018年11月1日 设备保养'
-          },
-          {
-            color: '#ffb91a',
-            event: '2018年12月3日 设备报修'
-          },
-
-        ],
+        timelineTitle: '',
+        timeline: [],
         name1: this.$route.query.name,
         name2: '',
-        timelineTitle: '电子上消化道内窥镜 EG-530WR',
-        timelineItems1: [],
         chart1: {
-          data: [{
-            name: "上呼吸道内窥镜EW34-49",
-            '收入': 80,
-            '支出': 60,
-            '设备价值': 480,
-            '服务人次': 99,
-          }, {
-            name: "上呼吸道内窥镜EW34-42",
-            '收入': 40,
-            '支出': 11,
-            '设备价值': 880,
-            '服务人次': 234,
-          }, {
-            name: "十二指肠内窥镜EW34-96",
-            '收入': 330,
-            '支出': 234,
-            '设备价值': 980,
-            '服务人次': 99,
-          }, {
-            name: "电子上消化道内窥镜 EG-531WR",
-            '收入': 444,
-            '支出': 580,
-            '设备价值': 880,
-            '服务人次': 555,
-          }, {
-            name: "电子上消化道内窥镜 EG-533WR",
-            '收入': 999,
-            '支出': 490,
-            '设备价值': 880,
-            '服务人次': 666,
-          }, {
-            name: "电子上消化道内窥镜 EG-520WR",
-            '收入': 666,
-            '支出': 290,
-            '设备价值': 880,
-            '服务人次': 22
-          }, {
-            name: "电子上消化道内窥镜 EG-535WR",
-            '收入': 222,
-            '支出': 333,
-            '设备价值': 880,
-            '服务人次': 28,
-          }, {
-            name: "电子上消化道内窥镜 EG-520WR",
-            '收入': 111,
-            '支出': 222,
-            '设备价值': 880,
-            '服务人次': 333,
-          }, {
-            name: "电子上消化道内窥镜 EG-330WR",
-            '收入': 333,
-            '支出': 112,
-            '设备价值': 880,
-            '服务人次': 101,
-          }, {
-            name: "电子上消化道内窥镜 EG-530WR",
-            '收入': 123,
-            '支出': 222,
-            '设备价值': 880,
-            '服务人次': 111,
-          }],
+          data: [],
         },
 
         chart3: {
           data: [],
+          list: [],
           chart: null,
         }
         // list3: [],
@@ -249,50 +104,60 @@
     },
     computed: {},
     created() {
-      this.name2 = this.chart1.data[0].name
+      // this.name2 = this.chart1.data[0].name
       // this.getqueryOverview()
-      this.$nextTick(() => {
+      this.getChart1().then(() => {
+        // 获取chart1之后获取雷达
         this.renderChart1()
-        this.renderChart3()
+        this.getChart3().then(() => {
+          this.renderChart3()
+        })
+        // 获取timeline
+        this.getTimeline()
       })
     },
     methods: {
+      getChart1() {
+        return new Promise(resolve => {
+          equipments({department: this.name1}).then(res => {
+            this.chart1.data = res.data.map(n => {
+              return Object.assign({}, n, {
+                name: n.name + ' ' + n.seriesNumber,
+                '收入': n.income,
+                '支出': n.expense,
+              })
+            })
+            resolve()
+          })
+        })
+      },
       random(lower, upper) {
         return Math.floor(Math.random() * (upper - lower)) + lower;
       },
-      data3() {
+      getChart3() {
         let _this = this
-
-        _this.chart3.data = [{
-          item: '维修',
-          value: _this.random(2, 10),
-        }, {
-          item: '巡检',
-          value: _this.random(2, 10),
-        }, {
-          item: '保养',
-          value: _this.random(2, 10),
-
-        }, {
-          item: '校正',
-          value: _this.random(2, 10),
-
-        }, {
-          item: '强检',
-          value: _this.random(2, 10),
-
-        }]
-        var _DataSet = DataSet,
-          DataView = _DataSet.DataView;
-
-        var dv = new DataView().source(_this.chart3.data);
-        dv.transform({
-          type: 'fold',
-          fields: ['value'], // 展开字段集
-          key: 'user', // key字段
-          value: 'score' // value字段
-        });
-        return dv
+        return new Promise(resolve => {
+          radar().then(res => {
+            _this.chart3.list = res
+            var _DataSet = DataSet,
+              DataView = _DataSet.DataView;
+            var dv = new DataView().source(_this.chart3.list);
+            dv.transform({
+              type: 'fold',
+              fields: ['value'], // 展开字段集
+              key: 'user', // key字段
+              value: 'score' // value字段
+            });
+            this.chart3.data = dv
+            resolve(dv)
+          })
+        })
+      },
+      getTimeline() {
+        timeline().then(res => {
+          this.timelineTitle = res.equipment
+          this.timeline = res.timeline
+        })
       },
       renderChart1() {
         // let rem =
@@ -331,18 +196,6 @@
 
 
         this.chart1.data.forEach(function (data, dataIndex) {
-          // chart.guide().region({
-          //   top: true, // 指定 giude 是否绘制在 canvas 最上层，默认为 false, 即绘制在最下层
-          //   start: [dataIndex - .25, 'min'], // 辅助框起始位置，值为原始数据值，支持 callback
-          //   end: [dataIndex + .25, 'max'],// 辅助框结束位置，值为原始数据值，支持 callback
-          //   style: {
-          //     lineWidth: 0, // 辅助框的边框宽度
-          //     fill: '#f80', // 辅助框填充的颜色
-          //     fillOpacity: 0.1, // 辅助框的背景透明度
-          //     stroke: '#ccc' // 辅助框的边框颜色设置
-          //   } // 辅助框的图形样式属性
-          // });
-
 
           if (data['支出'] > data['收入']) {
             // 辅助框
@@ -369,8 +222,9 @@
             return `<div class="g2-tooltip">
                     <div class="g2-tooltip-title">${title}</div>
                     <ul class="g2-tooltip-list">
-                      <li class="g2-tooltip-li">设备价值：${_this.numberComma(data.设备价值)}万</li>
-                      <li class="g2-tooltip-li">服务人次：${_this.numberComma(data.服务人次)}</li>
+                      <li class="g2-tooltip-li">设备价值：${_this.numberComma(data.value)}万</li>
+                      <li class="g2-tooltip-li">型号：${_this.numberComma(data.model)}</li>
+                      <li class="g2-tooltip-li">品牌：${_this.numberComma(data.brand)}</li>
                       <li class="g2-tooltip-li">收入：${_this.numberComma(data.收入)}万</li>
                       <li class="g2-tooltip-li">支出：${_this.numberComma(data.支出)}万</li>
                     </ul>
@@ -411,24 +265,7 @@
             // textBaseline: 'top' // 文本基准线，可取 top middle bottom，默认为middle
           },
 
-          // onClick: ev => {
-          //   const item = ev.item;
-          //   const value = item.value;
-          //   const checked = ev.checked;
-          //   const geoms = chart.getAllGeoms();
-          //   for (let i = 0; i < geoms.length; i++) {
-          //     console.log('i:', i)
-          //     const geom = geoms[i];
-          //     console.log(geom.getYScale(), '///', value)
-          //     if (geom.getYScale().field === value) {
-          //       if (checked) {
-          //         geom.show();
-          //       } else {
-          //         geom.hide();
-          //       }
-          //     }
-          //   }
-          // }
+
           hoverable: false,
           reactive: false,
           clickable: false,
@@ -455,9 +292,12 @@
           // const data = ev.data;
           const name = records[0]._origin.name
           _this.name2 = name
-          _this.chart3.chart.changeData(_this.data3());
-          _this.timelineTitle = name;
-          _this.currentTimeline.length == _this.timelineList1.length ? _this.currentTimeline = _this.timelineList2 : _this.currentTimeline = _this.timelineList1;
+          //获取雷达数据
+          _this.getChart3().then(dv => {
+            _this.chart3.chart.changeData(dv);
+          })
+          //获取timeline
+          _this.getTimeline()
         });
 
         chart.render();
@@ -473,7 +313,7 @@
           height: document.querySelector('#chart3').clientHeight,
           padding: [getRem(.5), getRem(.2), 0, getRem(.2)]
         });
-        _this.chart3.chart.source(_this.data3(), {
+        _this.chart3.chart.source(_this.chart3.data, {
           score: {
             min: 0,
             max: 10
