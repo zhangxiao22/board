@@ -128,9 +128,9 @@
       getChart1() {
         return new Promise(resolve => {
           equipments({department: this.name1}).then(res => {
-            this.chart1.data = res.data.map(n => {
+            this.chart1.data = res.data.map((n, i) => {
               return Object.assign({}, n, {
-                name: n.name + ' '+n.brand+' ' + n.model,
+                name: n.name + ' ' + n.brand + '' + n.model + '?' + i,
                 '收入': n.income,
                 '支出': n.expense,
               })
@@ -228,7 +228,7 @@
               }
             })
             return `<div class="g2-tooltip">
-                    <div class="g2-tooltip-title">${title}</div>
+                    <div class="g2-tooltip-title">${title.split('?')[0]}</div>
                     <ul class="g2-tooltip-list">
                       <li class="g2-tooltip-li">设备价值：${_this.numberComma(data.value)}万</li>
                       <li class="g2-tooltip-li">型号：${_this.numberComma(data.model)}</li>
@@ -299,7 +299,7 @@
           console.log(records);
           // const data = ev.data;
           const name = records[0]._origin.name
-          _this.name2 = name
+          _this.name2 = name.split('?')[0]
           //获取雷达数据
           _this.getChart3().then(dv => {
             _this.chart3.chart.changeData(dv);
