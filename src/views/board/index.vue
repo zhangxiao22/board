@@ -248,6 +248,8 @@
         this.renderChart3()
       })
       this.autoSelectchart3()
+
+
     },
     methods: {
       getqueryOverview() {
@@ -293,25 +295,38 @@
         this.chart1.data.forEach(function (data, dataIndex) {
           if (data['支出'] > data['收入']) {
             // 辅助线
-            chart.guide().line({
-              top: true,
-              start: [dataIndex - .25, -data['收入']],
-              end: [dataIndex + .25, -data['收入']],
+            // chart.guide().line({
+            //   top: true,
+            //   start: [dataIndex - .25, -data['收入']],
+            //   end: [dataIndex + .25, -data['收入']],
+            //
+            //   lineStyle: {
+            //     // fill: 'red',
+            //     stroke: '#f2637b', // 线的颜色
+            //     lineDash: null, // 虚线的设置
+            //     lineWidth: 1 // 线的宽度
+            //   }, // 图形样式配置
+            //
+            // });
 
-              lineStyle: {
-                // fill: 'red',
-                stroke: '#f2637b', // 线的颜色
-                lineDash: null, // 虚线的设置
-                lineWidth: 1 // 线的宽度
-              }, // 图形样式配置
-
+            // 辅助框
+            chart.guide().regionFilter({
+              top: true, // 指定 giude 是否绘制在 canvas 最上层，默认为 false, 即绘制在最下层
+              start: [dataIndex - .25, -data['收入']], // 辅助框起始位置，值为原始数据值，支持 callback
+              end: [dataIndex + .25, -data['支出']],// 辅助框结束位置，值为原始数据值，支持 callback
+              color: '#E2340D',
+              // style: {
+              //   lineWidth: 0, // 辅助框的边框宽度
+              //   fill: '#e60308', // 辅助框填充的颜色
+              //   fillOpacity: 1, // 辅助框的背景透明度
+              //   stroke: '#e60303' // 辅助框的边框颜色设置
+              // } // 辅助框的图形样式属性
             });
           }
         });
 
 
         chart.tooltip({
-          itemTpl: '<li></span>{name}:+{value}</li>',
           inPlot: true,
           useHtml: true,
           htmlContent: function (title, items) {
@@ -403,6 +418,21 @@
         chart.intervalStack().position('name*value').color('opinion', function (opinion) {
           return colorMap[opinion];
         });
+
+        chart.on('click', ev => {
+          // 获取逼近的点 point 的原始数据集合
+          var records = chart.getSnapRecords({x: ev.x, y: ev.y});
+          console.log(records);
+          const name = records[0]._origin.name
+          _this.$router.push({
+            path: '/radar',
+            query: {
+              name
+            }
+          })
+        });
+
+
         chart.render();
       },
       renderChart3() {
@@ -443,7 +473,7 @@
         // 辅助文本
         chart.guide().html({
           position: ['50%', '50%'],
-          html: `<div style="font-size: .4rem;text-align: center;width: 10em;">
+          html: `<div class="total-repair" style="font-size: .4rem;text-align: center;width: 10em;cursor: pointer;">
                   <span style="font-size:.8rem;font-weight: bold;">${total}</span>件
                   <div style="margin-top: .25rem">今日总报修</div>
                 </div>`,
@@ -458,6 +488,10 @@
             cursor: 'pointer'
           }).color('name')
         chart.render();
+
+        this.addEvent(true)
+
+
         // 默认选中
         this.chart3.interval.setSelected(this.chart3.data[this.chart3.activeIndex]);
         this.getchart3List(this.chart3.activeIndex)
@@ -499,6 +533,21 @@
         source[0] = source[0].replace(new RegExp('(\\d)(?=(\\d{' + length + '})+$)', 'ig'), "$1,");
         return source.join(".");
       },
+      clickEvent() {
+        window.open('/index-FujiManagerRepair.html', '_self')
+      },
+      addEvent(flag) {
+        let ele = document.querySelector('.total-repair')
+        if (!ele) return
+        if (flag) {
+          ele.addEventListener('click', this.clickEvent)
+        } else {
+          ele.document.querySelector('.total-repair').removeEventListener('click', this.clickEvent)
+        }
+      }
+    },
+    beforeDestroy() {
+      this.addEvent(false)
     }
   }
 </script>
@@ -583,9 +632,12 @@
 
             .list-box1 {
               position: absolute;
-              right: .8rem;
+              right: 0;
+              padding-right: .8rem;
+              left: 0;
               top: .5rem;
               display: flex;
+              justify-content: flex-end;
               z-index: 2;
 
               .list {

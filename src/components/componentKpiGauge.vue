@@ -2,7 +2,7 @@
   <div class="component-gauge-container">
     <div id="kpi-chart"></div>
     <div class="list-box">
-      <div class="list" v-for="(item,key) of list" :key="key">
+      <div class="list" v-for="(item,key) of list" :key="key" @click="link(item)">
         <div class="list-box-left">
           <div class="text">{{item.name}}</div>
           <div class="percent">{{item.value}}<span style="font-size: .4rem;">%</span></div>
@@ -22,6 +22,8 @@
   </div>
 </template>
 <script>
+  import G2 from '@antv/g2';
+  import {DataSet} from '@antv/data-set'
   import {kpiList} from '@/api/api'
   import {getRem} from '@/common/common'
 
@@ -72,6 +74,11 @@
       })
     },
     methods: {
+      link(item) {
+        if (item.name === '保养率') {
+          window.open('/index-FujiManagerMaintain.html', '_self')
+        }
+      },
       getList() {
         return new Promise(resolve => {
           kpiList().then(res => {
@@ -250,7 +257,7 @@
           // 绘制指标数字
           chart.guide().html({
             position: ['50%', '72%'],
-            html: '<div style="width: 300px;text-align: center;">' +
+            html: '<div style="width: 3rem;text-align: center;">' +
               '<p style="font-size: .8rem;color: #E64340;margin: 0;font-weight: bold">' +
               val * 10 + '<span style="font-size: .4rem;">%</span></p>' +
               '<p style="font-size: .4rem; color: #444;margin-top: .1rem;">开机率</p></div>'
@@ -286,6 +293,7 @@
 
       .list {
         display: flex;
+        cursor: pointer;
 
         .list-box-left {
           .text {
