@@ -534,7 +534,7 @@
         return source.join(".");
       },
       clickEvent() {
-        window.open('/index-FujiManagerRepair.html', '_self')
+        window.open('page/index-FujiManagerRepair.html', '_self')
       },
       addEvent(flag) {
         let ele = document.querySelector('.total-repair')

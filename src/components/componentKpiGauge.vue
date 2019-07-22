@@ -76,7 +76,7 @@
     methods: {
       link(item) {
         if (item.name === '保养率') {
-          window.open('/index-FujiManagerMaintain.html', '_self')
+          window.open('page/index-FujiManagerMaintain.html', '_self')
         }
       },
       getList() {
