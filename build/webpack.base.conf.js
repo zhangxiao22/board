@@ -12,11 +12,15 @@ function resolve(dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
+<<<<<<< HEAD
     normal: ['babel-polyfill', './src/main.js']
+=======
+    app: ['babel-polyfill', './src/main.js']
+>>>>>>> 44072485cab753f1eab139f753c234a1f8eb3edd
   },
   output: {
     path: config.build.assetsRoot,
-    publicPath: './',
+    // publicPath: './',
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
@@ -38,8 +42,8 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        exclude: /node_modules/, // 处理除了nodde_modules里的js文件
+        loader: 'babel-loader'
       },
       {
         test: /node_modules[\\\/]vis[\\\/].*\.js$/,
