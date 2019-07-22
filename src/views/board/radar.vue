@@ -70,6 +70,7 @@
   import {DataSet} from '@antv/data-set'
   import {queryOverview} from '@/api/api'
   import {getRem} from '@/common/common'
+  import {RADAR_DATA} from '../../../static/data'
   import EventList from '../../components/componentEventList'
   import KpiList from '../../components/componentKpiGauge'
   import {Timeline, TimelineItem, TimelineTitle} from 'vue-cute-timeline'
@@ -118,17 +119,32 @@
     },
     methods: {
       getChart1() {
+        // this.name1
         return new Promise(resolve => {
-          equipments({department: this.name1}).then(res => {
-            this.chart1.data = res.data.map((n, i) => {
-              return Object.assign({}, n, {
-                name: n.name + ' ' + n.brand + '' + n.model + '?' + i,
-                '收入': n.income,
-                '支出': n.expense,
+          this.chart1.data = []
+          RADAR_DATA.forEach((n, i) => {
+            if (n.所属科室 === this.name1) {
+              this.chart1.data.push({
+                name: n.设备名称 + ' ' + n.品牌 + ' ' + n.型号 + '?' + i,
+                brand: n.品牌,
+                model: n.型号,
+                收入: this.random(80, 100),
+                支出: this.random(80, 100),
+                value: n.单价 / 10000,
+                seriesNumber: n.资产编号
               })
-            })
-            resolve()
+            }
           })
+          //   equipments({department: this.name1}).then(res => {
+          //     this.chart1.data = res.data.map((n, i) => {
+          //       return Object.assign({}, n, {
+          //         name: n.name + ' ' + n.brand + '' + n.model + '?' + i,
+          //         '收入': n.income,
+          //         '支出': n.expense,
+          //       })
+          //     })
+          resolve()
+          //   })
         })
       },
       random(lower, upper) {
