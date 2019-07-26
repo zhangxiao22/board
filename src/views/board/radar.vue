@@ -41,7 +41,8 @@
 
       </div>
       <div class="b-left-bottom">
-        <div class="name">{{name2}}</div>
+        <div class="name">{{name2.split('?')[0]}}</div>
+        <div class="name-lower">{{name3}}</div>
         <div id="chart3"></div>
         <div class="list3">
           <div class="item" v-for="(list,key) of chart3.list" :key="key">
@@ -90,6 +91,7 @@
         timeline: [],
         name1: this.$route.query.name,
         name2: '',
+        name3: '',
         chart1: {
           data: [],
         },
@@ -131,7 +133,8 @@
                 收入: this.random(80, 100),
                 支出: this.random(80, 100),
                 value: n.单价 / 10000,
-                seriesNumber: n.资产编号
+                seriesNumber: n.资产编号,
+                serialCode: '设备序列号:'+n.资产编号+' 当前位置：'+n.所属科室+' 安装日期：'+n.开始使用日期+' 当前状态：开机'
               })
             }
           })
@@ -308,6 +311,11 @@
           // const data = ev.data;
           const name = records[0]._origin.name
           _this.name2 = name
+          var targetItem = _this.chart1.data.find(function(val) {
+            return val['name'] == name;
+          })
+          console.log(targetItem);
+          _this.name3 = targetItem.serialCode
           //获取雷达数据
           _this.getChart3().then(dv => {
             _this.chart3.chart.changeData(dv);
