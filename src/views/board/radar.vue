@@ -63,9 +63,9 @@
     </div>
     <div class="b-right">
       <div class="b-right-content">
+        <div class="timeline-title" style="font-size: 32px;">{{timelineTitle}}</div>
         <div class="b-timeline">
           <timeline>
-            <timeline-title bg-color="#E64340" font-color="#000">{{timelineTitle}}</timeline-title>
             <timeline-item v-for="(item,key) in timeline" :key="key" :bg-color="item.color" @click.native="navigateTo(item)">{{item.date}} {{item.event}}
             </timeline-item>
           </timeline>
