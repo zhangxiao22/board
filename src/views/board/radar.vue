@@ -41,7 +41,17 @@
 
       </div>
       <div class="b-left-bottom">
-        <div class="name">{{name2}}</div>
+        <div class="name">
+          {{currentData.name.split('?')[0]}}
+          <br/>
+          <p style="margin-top: .5rem">{{currentData.seriesNumber}}</p>
+        </div>
+        <div class="name-lower-box">
+          <div class="name-lower">当前位置：{{currentData.department}}</div>
+          <div class="name-lower">安装日期：{{currentData.start_time}}</div>
+          <div class="name-lower">当前状态：{{currentData.status}}</div>
+        </div>
+
         <div id="chart3"></div>
         <div class="list3">
           <div class="item" v-for="(list,key) of chart3.list" :key="key">
@@ -89,9 +99,9 @@
         timelineTitle: '',
         timeline: [],
         name1: this.$route.query.name,
-        name2: '',
-        timelineTitle: '电子上消化道内窥镜 EG-530WR',
-        timelineItems1: [],
+        currentData: {
+          name: '',
+        },
         chart1: {
           data: [],
         },
@@ -110,6 +120,8 @@
       // this.name2 = this.chart1.data[0].name
       // this.getqueryOverview()
       this.getChart1().then(() => {
+        //默认选中第一条数据
+        this.currentData = this.chart1.data[0]
         // 获取chart1之后获取雷达
         this.renderChart1()
         this.getChart3().then(() => {
@@ -139,7 +151,11 @@
                 收入: this.random(80, 100),
                 支出: this.random(80, 100),
                 value: n.单价 / 10000,
-                seriesNumber: n.资产编号
+                seriesNumber: n.资产编号,
+                department: n.所属科室,
+                start_time: n.开始使用日期,
+                status: '开机',
+                // serialCode: '设备序列号:' + n.资产编号 + ' 当前位置：' + n.所属科室 + ' 安装日期：' + n.开始使用日期 + ' 当前状态：开机'
               })
             }
           })
@@ -315,7 +331,11 @@
           console.log(records);
           // const data = ev.data;
           const name = records[0]._origin.name
-          _this.name2 = name.split('?')[0]
+          var targetItem = _this.chart1.data.find(function (val) {
+            return val.name === name;
+          })
+          console.log(targetItem);
+          _this.currentData = targetItem
           //获取雷达数据
           _this.getChart3().then(dv => {
             _this.chart3.chart.changeData(dv);
@@ -335,7 +355,7 @@
           container: 'chart3',
           forceFit: true,
           height: document.querySelector('#chart3').clientHeight,
-          padding: [getRem(.5), getRem(.2), 0, getRem(.2)]
+          padding: [getRem(.5), getRem(.2), 0, getRem(.1)]
         });
         _this.chart3.chart.source(_this.chart3.data, {
           score: {
@@ -538,13 +558,26 @@
           font-weight: bold;
         }
 
+        .name-lower-box {
+          display: flex;
+          width: 25%;
+          justify-content: center;
+          flex-direction: column;
+          font-weight: bold;
+          padding-left: .5rem;
+
+          .name-lower {
+            margin: .3rem 0;
+          }
+        }
+
         #chart3 {
-          width: 60%;
+          width: 50%;
           height: 100%;
         }
 
         .list3 {
-          width: 40%;
+          width: 25%;
           font-weight: bold;
           display: flex;
           flex-direction: column;
@@ -626,6 +659,7 @@
 
 
     /deep/ .g2-tooltip {
+      z-index: 99;
       position: absolute;
       background-color: rgba(0, 0, 0, 0.7);
       border-radius: .16rem;

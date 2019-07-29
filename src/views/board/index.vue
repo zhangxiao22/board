@@ -592,7 +592,7 @@
         return source.join(".");
       },
       clickEvent() {
-        top.open('page/index-FujiManagerRepair.html', '_self')
+        window.open('page/index-FujiManagerRepair.html', '_self')
       },
       addEvent(flag) {
         let ele = document.querySelector('.total-repair')
