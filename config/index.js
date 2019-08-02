@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/api': {
-      //   target: 'http://api.stramogroup.com/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/api': ''
-      //   }
-      // }
+       '/api': {
+         target: 'http://159.226.128.250/MEMS/',
+         changeOrigin: true,
+         pathRewrite: {
+           '^/api': ''
+         }
+       }
     },
 
     // Various Dev Server settings

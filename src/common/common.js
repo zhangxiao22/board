@@ -2,9 +2,9 @@
 // import axios from 'axios'
 
 export const BASE_URL = process.env.NODE_ENV == 'development'
-  ? 'http://api.stramogroup.com/'
+  ? 'http://159.226.128.250/MEMS/'
   // : 'http://test.yltyxy.com/'
-  : 'http://api.stramogroup.com/'
+  : 'http://159.226.128.250/MEMS/'
 
 export const getRem = function (n = 1) {
   if (isNaN(n)) return

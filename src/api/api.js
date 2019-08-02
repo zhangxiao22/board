@@ -5,6 +5,11 @@ export const queryOverview = params => {
   return $httpGet('/Equipment/QueryOverview', params);
 };
 
+//科室收入支出
+export const departmentIncome = params => {
+  return $httpGet('/Equipment/IncomeExpenseByDepartment', params);
+}
+
 //事件列表
 export const eventList = params => {
   return $httpGet('/Request/QueryOverview', params);
@@ -12,17 +17,17 @@ export const eventList = params => {
 
 // kpi指标
 export const kpiList = params => {
-  return $httpGet('/KPI/QueryOverview', params);
+  return $httpGet('/Request/Kpi', params);
 };
 
 // 科室的设备
 export const equipments = params => {
-  return $httpGet('/equipments_info_by_department', params);
+  return $httpGet('/Equipment/EquipmentsDetailsByDepartment', params);
 };
 
 // 获取雷达
-export const radar = params => {
-  return $httpGet('/radar_by_equipment', params);
+export const radarData = params => {
+  return $httpGet('/Equipment/GetRequestCountByID', params);
 };
 
 // 获取timeline

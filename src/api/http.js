@@ -5,8 +5,8 @@ import {BASE_URL} from '../common/common'
 
 let cancel, promiseArr = {};
 const Axios = axios.create({
-  baseURL: BASE_URL,
-  // baseURL: '/api',
+  //baseURL: BASE_URL,
+  baseURL: '/api',
   // withCredentials: true,
   timeout: 5000,
   headers: {

@@ -5,19 +5,19 @@
         <div class="left box box1">
           <div class="top-list-box">
             <div class="item">
-              <div class="value">{{numberComma(1133)}}</div>
+              <div class="value">{{numberComma(overview.EquipmentCount)}}</div>
               <div class="text">设备数量（台）</div>
             </div>
             <div class="item">
-              <div class="value">{{numberComma(22314.34)}}</div>
+              <div class="value">{{numberComma(Math.floor(overview.EquipmentAmount/10000))}}</div>
               <div class="text">设备金额（万元）</div>
             </div>
             <div class="item">
-              <div class="value">33.44%</div>
+              <div class="value">{{overview.DepreciationRate*100}}%</div>
               <div class="text">折旧率</div>
             </div>
             <div class="item">
-              <div class="value">{{numberComma(123)}}</div>
+              <div class="value">{{numberComma(overview.ServiceCount)}}</div>
               <div class="text">当年服务人次(万人)</div>
             </div>
           </div>
@@ -25,12 +25,12 @@
             <div class="list-box1">
               <div class="list">
                 <div class="total">
-                  <div class="value">{{numberComma(22608.09)}}</div>
+                  <div class="value">{{numberComma(totalIncome)}}</div>
                   <div class="text">总收入（万元）</div>
                 </div>
                 <div class="status up">
                   <div class="value">
-                    <span>23.45%</span>
+                    <span>{{Number((totalIncome-totalIncomeLast)/totalIncomeLast*100).toFixed(2)}}%</span>
                     <span class="iconfont icon-shang"></span>
                   </div>
                   <div class="text">
@@ -40,12 +40,12 @@
               </div>
               <div class="list">
                 <div class="total">
-                  <div class="value">{{numberComma(16530.01)}}</div>
+                  <div class="value">{{numberComma(Number(totalExpense).toFixed(2))}}</div>
                   <div class="text">总支出（万元）</div>
                 </div>
-                <div class="status down">
+                <div class="status up">
                   <div class="value">
-                    <span>23.45%</span>
+                    <span>{{Number((totalExpense-totalExpenseLast)/totalExpenseLast*100).toFixed(2)}}%</span>
                     <span class="iconfont icon-shang"></span>
                   </div>
                   <div class="text">
@@ -86,7 +86,7 @@
   import {} from '@/api/api'
   import G2 from '@antv/g2';
   import {DataSet} from '@antv/data-set'
-  import {queryOverview} from '@/api/api'
+  import {queryOverview, departmentIncome} from '@/api/api'
   import {getRem} from '@/common/common'
   import EventList from '../../components/componentEventList'
   import KpiList from '../../components/componentKpiGauge'
@@ -99,101 +99,14 @@
 
     data() {
       return {
+        overview: '',
         chart1: {
-          data: [{
-            name: "骨科",
-            '收入': 800,
-            '支出': 600,
-            '设备数量': 40,
-            '设备价值': 4800,
-            '服务人次': 99,
-          }, {
-            name: "重症医学科",
-            '收入': 400,
-            '支出': 111,
-            '设备数量': 30,
-            '设备价值': 8800,
-            '服务人次': 2334,
-          }, {
-            name: "血库",
-            '收入': 330,
-            '支出': 234,
-            '设备数量': 5,
-            '设备价值': 9800,
-            '服务人次': 99,
-          }, {
-            name: "肿瘤消化肾病科",
-            '收入': 444,
-            '支出': 580,
-            '设备数量': 47,
-            '设备价值': 8800,
-            '服务人次': 555,
-          }, {
-            name: "肾病综合内科",
-            '收入': 999,
-            '支出': 490,
-            '设备数量': 5,
-            '设备价值': 8800,
-            '服务人次': 666,
-          }, {
-            name: "肝胆外科",
-            '收入': 666,
-            '支出': 290,
-            '设备数量': 4,
-            '设备价值': 8800,
-            '服务人次': 222,
-          }, {
-            name: "神经内外科",
-            '收入': 222,
-            '支出': 333,
-            '设备数量': 4,
-            '设备价值': 8800,
-            '服务人次': 28,
-          }, {
-            name: "消化呼吸科",
-            '收入': 111,
-            '支出': 222,
-            '设备数量': 4,
-            '设备价值': 8800,
-            '服务人次': 333,
-          }, {
-            name: "泌尿五官科",
-            '收入': 333,
-            '支出': 112,
-            '设备数量': 3,
-            '设备价值': 8800,
-            '服务人次': 101,
-          }, {
-            name: "新生儿科",
-            '收入': 123,
-            '支出': 82,
-            '设备数量': 3,
-            '设备价值': 8800,
-            '服务人次': 111,
-          }, {
-            name: "放射科",
-            '收入': 175,
-            '支出': 111,
-            '设备数量': 4,
-            '设备价值': 8800,
-            '服务人次': 69,
-          }, {
-            name: "手术室",
-            '收入': 388,
-            '支出': 345,
-            '设备数量': 3,
-            '设备价值': 8800,
-            '服务人次': 23,
-          }, {
-            name: "妇产科",
-            '收入': 356,
-            '支出': 234,
-            '设备数量': 4,
-            '设备价值': 8800,
-            '服务人次': 34,
-          }],
+          data: []
         },
-
+        totalIncome: '',
+        totalExpense: '',
+        totalIncomeLast: '',
+        totalExpenseLast: '',
         chart3: {
           data: [{
             name: '骨科',
@@ -300,19 +213,51 @@
     },
     computed: {},
     created() {
-      // this.getqueryOverview()
+      this.getqueryOverview()
+      this.getIncome()
       this.$nextTick(() => {
-        this.renderChart1()
         this.renderChart3()
       })
       this.autoSelectchart3()
-
-
     },
     methods: {
       getqueryOverview() {
         queryOverview().then(res => {
-          console.log(res)
+          this.overview = res.Data;
+          console.log(res);
+        })
+      },
+      getIncome() {
+        departmentIncome().then(res => {
+          let t_income = 0, 
+              t_expense = 0 ,
+              t_income_last = 0,
+              t_expense_last = 0
+          let data = res.Data;
+          let d_list = [];
+          for(let i=0; i<data.length; i++) {
+            t_income += Number(data[i].Incomes);
+            t_income_last += Number(data[i].LastIncomes);
+            t_expense += Number(data[i].Expenses);
+            t_expense_last += Number(data[i].LastExpenses);
+            let json = {
+              id: data[i].Department.ID,
+              name: data[i].Department.Name,
+              '收入': data[i].Incomes,
+              '支出': data[i].Expenses,
+              '设备数量': data[i].EquipmentCount,
+              '设备价值': Number(data[i].EquipmentAmount/10000).toFixed(2),
+              '服务人次': data[i].ServiceCount, 
+            }
+            d_list.push(json)
+          }
+          console.log(d_list);
+          this.chart1.data = d_list;
+          this.totalIncome = t_income;
+          this.totalExpense = t_expense;
+          this.totalIncomeLast = t_income_last;
+          this.totalExpenseLast = t_expense_last;
+          this.renderChart1()
         })
       },
       renderChart1() {
@@ -482,10 +427,14 @@
           var records = chart.getSnapRecords({x: ev.x, y: ev.y});
           console.log(records);
           const name = records[0]._origin.name
+          var item = _this.chart1.data.find(function(val) {
+            return val.name == name
+          })
+          var id = item.id
           _this.$router.push({
             path: '/radar',
             query: {
-              name
+              id
             }
           })
         });

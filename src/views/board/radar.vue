@@ -78,9 +78,9 @@
   import {equipments, radar, timeline} from '@/api/api'
   import G2 from '@antv/g2';
   import {DataSet} from '@antv/data-set'
-  import {queryOverview} from '@/api/api'
+  import {queryOverview, radarData} from '@/api/api'
   import {getRem} from '@/common/common'
-  import {RADAR_DATA} from '../../../static/data'
+  import {RADAR_DATA, TIMELINE, RADAR} from '../../../static/data'
   import EventList from '../../components/componentEventList'
   import KpiList from '../../components/componentKpiGauge'
   import {Timeline, TimelineItem, TimelineTitle} from 'vue-cute-timeline'
@@ -98,7 +98,8 @@
       return {
         timelineTitle: '',
         timeline: [],
-        name1: this.$route.query.name,
+        //name1: this.$route.query.name,
+        id: this.$route.query.id,
         currentData: {
           name: '',
         },
@@ -142,33 +143,40 @@
         // this.name1
         return new Promise(resolve => {
           this.chart1.data = []
-          RADAR_DATA.forEach((n, i) => {
-            if (n.所属科室 === this.name1) {
-              this.chart1.data.push({
-                name: n.设备名称 + ' ' + n.品牌 + ' ' + n.型号 + '?' + i,
-                brand: n.品牌,
-                model: n.型号,
-                收入: this.random(80, 100),
-                支出: this.random(80, 100),
-                value: n.单价 / 10000,
-                seriesNumber: n.资产编号,
-                department: n.所属科室,
-                start_time: n.开始使用日期,
-                status: '开机',
-                // serialCode: '设备序列号:' + n.资产编号 + ' 当前位置：' + n.所属科室 + ' 安装日期：' + n.开始使用日期 + ' 当前状态：开机'
-              })
-            }
-          })
-          //   equipments({department: this.name1}).then(res => {
-          //     this.chart1.data = res.data.map((n, i) => {
-          //       return Object.assign({}, n, {
-          //         name: n.name + ' ' + n.brand + '' + n.model + '?' + i,
-          //         '收入': n.income,
-          //         '支出': n.expense,
-          //       })
+          // RADAR_DATA.forEach((n, i) => {
+          //   if (n.所属科室 === this.name1) {
+          //     this.chart1.data.push({
+          //       name: n.设备名称 + ' ' + n.品牌 + ' ' + n.型号 + '?' + i,
+          //       brand: n.品牌,
+          //       model: n.型号,
+          //       收入: this.random(80, 100),
+          //       支出: this.random(80, 100),
+          //       value: n.单价 / 10000,
+          //       seriesNumber: n.资产编号,
+          //       department: n.所属科室,
+          //       start_time: n.开始使用日期,
+          //       status: '开机',
+          //       // serialCode: '设备序列号:' + n.资产编号 + ' 当前位置：' + n.所属科室 + ' 安装日期：' + n.开始使用日期 + ' 当前状态：开机'
           //     })
+          //   }
+          // })
+            equipments({id: this.id}).then(res => {
+              this.chart1.data = res.Data.map((n, i) => {
+                return Object.assign({}, n, {
+                  name: n.Name + ' ' + n.Manufacturer.Name + '' + n.EquipmentCode + '?' + i,
+                  '收入': n.Incomes,
+                  '支出': n.Expenses,
+                  brand: n.Manufacturer.Name,
+                  model: n.EquipmentCode,
+                  value: n.PurchaseAmount/10000,
+                  seriesNumber: n.AssetCode,
+                  department: n.Department.Name,
+                  start_time: n.CreateDate,
+                  status: n.EquipmentStatus.Name
+                })
+              })
           resolve()
-          //   })
+          })
         })
       },
       random(lower, upper) {
@@ -177,8 +185,14 @@
       getChart3() {
         let _this = this
         return new Promise(resolve => {
-          radar().then(res => {
-            _this.chart3.list = res
+          radarData({id: this.currentData.ID}).then(res => {
+            var radar_data = RADAR;
+            radar_data[0].value = res.Data.Repair;
+            radar_data[1].value = res.Data.Maintain;
+            radar_data[2].value = res.Data.Inspection;
+            radar_data[3].value = res.Data.OnSiteInspection;
+            radar_data[4].value = res.Data.Correcting;
+            _this.chart3.list = radar_data;
             var _DataSet = DataSet,
               DataView = _DataSet.DataView;
             var dv = new DataView().source(_this.chart3.list);
@@ -194,10 +208,12 @@
         })
       },
       getTimeline() {
-        timeline().then(res => {
-          this.timelineTitle = res.equipment
-          this.timeline = res.timeline
-        })
+        // timeline().then(res => {
+        //   this.timelineTitle = res.equipment
+        //   this.timeline = res.timeline
+        // })
+        this.timelineTitle = TIMELINE.equipment;
+        this.timeline = TIMELINE.timeline;
       },
       renderChart1() {
         // let rem =

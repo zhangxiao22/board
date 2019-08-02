@@ -26,6 +26,7 @@
   import {DataSet} from '@antv/data-set'
   import {kpiList} from '@/api/api'
   import {getRem} from '@/common/common'
+  import {KPI} from '../../static/data'
 
   export default {
 
@@ -40,7 +41,7 @@
         },
         list: [
           {
-            key: 'Calibration',
+            key: 'Correcting',
             name: '校准率',
             value: 0,
             processed: 0,
@@ -48,7 +49,7 @@
             target: 0,
           },
           {
-            key: 'Maintainance',
+            key: 'Maintain',
             name: '保养率',
             value: 0,
             processed: 0,
@@ -56,7 +57,7 @@
             target: 0,
           },
           {
-            key: 'Inspection',
+            key: 'OnSiteInspection',
             name: '巡检率',
             value: 0,
             processed: 0,
@@ -83,15 +84,13 @@
         return new Promise(resolve => {
           kpiList().then(res => {
             console.log(res)
-            // res.Data
-            let data = res.Data
-            // data.BootRate.CurrentRate = 0.99
-            this.chart.value = (data.BootRate.CurrentRate * 10).toFixed(1) * 1
-            this.chart.target = (data.BootRate.TargetRate * 10).toFixed(1) * 1
+            let data = res.Data;
+            this.chart.value = (data.BootRate.Present * 10).toFixed(1) * 1
+            this.chart.target = (data.BootRate.Default * 10).toFixed(1) * 1
             this.list.forEach(n => {
-              n.value = (data[n.key].Processed / data[n.key].Total).toFixed(2) * 100
-              n.processed = data[n.key].Processed
-              n.total = data[n.key].Total
+              n.value = (data[n.key].Done / data[n.key].Plans).toFixed(2) * 100
+              n.processed = data[n.key].Done
+              n.total = data[n.key].Plans
             })
             resolve()
           })

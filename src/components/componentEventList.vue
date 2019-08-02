@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="component-event-list" @click="link">
-      <div class="li" v-for="(item,key) of list" :key="key">
+      <div class="li" v-for="(item,key) of mockList" :key="key">
         <span class="iconfont icon-jingbao"></span>
         <span class="text elip" title="飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方">
             {{mockList[key]}}
@@ -24,6 +24,7 @@
 </template>
 <script>
   import {eventList} from '@/api/api'
+  import {EVENT} from '../../static/data'
   // import {getRem} from '@/common/common'
 
   export default {
@@ -34,28 +35,28 @@
     data() {
       return {
         navList: [{
-          key: 'RepairEvents',
+          key: 'Repair',
           name: '紧急维修',
           icon: 'icon-xiuli1',
-          count: 0,
+          count: 9,
           active: false,
         }, {
-          key: 'CallbackEvents',
+          key: 'Recall',
           name: '召回事件',
           icon: 'icon-buhegepinzhaohui',
-          count: 0,
+          count: 2,
           active: false,
         }, {
-          key: 'ForceCheckEvents',
+          key: 'MandatoryTest',
           name: '强检事件',
           icon: 'icon-jingbao1',
-          count: 0,
+          count: 3,
           active: false,
         }, {
-          key: 'DelayedEvents',
+          key: 'OverDue',
           name: '超期事件',
           icon: 'icon-rili',
-          count: 0,
+          count: 6,
           active: false,
         }],
         list: [],
@@ -94,22 +95,32 @@
         this.autoLoop()
       },
       getList(key) {
+        console.log(key);
+        //this.list = EVENT[key].Detail
+        //this.mockList = [
+        //  '放射科1室医用磁共振设备无法开机，请速去维修',
+        //  '介入科断层扫描设备故障，请速去处理',
+        //  '呼吸科上呼吸道内窥镜EW34-49配件损坏，请速去更换',
+        //  '消化内科电子上消化道内窥镜显示器蓝屏，请速去处理',
+        //  '放射科医用磁共振设备无法开机，请速去维修',
+        //  '骨科断层扫描设备故障，请速去处理',
+        //  '胸外科上呼吸道内窥镜EW34-49配件损坏，请速去更换'
+        //]
+        //this.navList.forEach((n) => {
+        //  n.count = res.Data[n.key].Count
+        //})
+        // 滚动条回到顶
+        //document.querySelector('.component-event-list').scrollTo(0, 0)
         eventList().then(res => {
-          this.list = res.Data[key].Detail
-          this.mockList = [
-            '放射科1室医用磁共振设备无法开机，请速去维修',
-            '介入科断层扫描设备故障，请速去处理',
-            '呼吸科上呼吸道内窥镜EW34-49配件损坏，请速去更换',
-            '消化内科电子上消化道内窥镜显示器蓝屏，请速去处理',
-            '放射科医用磁共振设备无法开机，请速去维修',
-            '骨科断层扫描设备故障，请速去处理',
-            '胸外科上呼吸道内窥镜EW34-49配件损坏，请速去更换'
-          ]
+          console.log(res);
           this.navList.forEach((n) => {
-            n.count = res.Data[n.key].Count
+            n.count = res.Data[n.key].length
           })
-          // 滚动条回到顶
-          document.querySelector('.component-event-list').scrollTo(0, 0)
+          let event_list = res.Data[key].map(function (val) {
+            return val.DepartmentName+' '+val.EquipmentName+' '+val.RequestType.Name+' '+val.FaultType.Name+' '+val.FaultDesc;
+          })
+          this.mockList = event_list;
+          console.log(event_list);
         })
       }
     }
