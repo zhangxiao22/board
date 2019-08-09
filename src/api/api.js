@@ -10,6 +10,10 @@ export const departmentIncome = params => {
   return $httpGet('/Equipment/IncomeExpenseByDepartment', params);
 }
 
+export const requestToday = params => {
+  return $httpGet('/Request/Todays', params);
+}
+
 //事件列表
 export const eventList = params => {
   return $httpGet('/Request/QueryOverview', params);
@@ -32,5 +36,5 @@ export const radarData = params => {
 
 // 获取timeline
 export const timeline = params => {
-  return $httpGet('/timeline_by_equipment', params);
+  return $httpGet('/Equipment/GetTimeline4APP', params);
 };

@@ -18,7 +18,7 @@
             </div>
             <div class="item">
               <div class="value">{{numberComma(overview.ServiceCount)}}</div>
-              <div class="text">当年服务人次(万人)</div>
+              <div class="text">当年服务人次(人)</div>
             </div>
           </div>
           <div class="chart1-box">
@@ -86,7 +86,7 @@
   import {} from '@/api/api'
   import G2 from '@antv/g2';
   import {DataSet} from '@antv/data-set'
-  import {queryOverview, departmentIncome} from '@/api/api'
+  import {queryOverview, departmentIncome, requestToday} from '@/api/api'
   import {getRem} from '@/common/common'
   import EventList from '../../components/componentEventList'
   import KpiList from '../../components/componentKpiGauge'
@@ -108,101 +108,102 @@
         totalIncomeLast: '',
         totalExpenseLast: '',
         chart3: {
-          data: [{
-            name: '骨科',
-            count: 5,
-            // list: Array(...Array(55)).map((n, i) => {
-            //   return {name: '骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备', status: Math.random() > .5}
-            // }),
-            list: [
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
-              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-            ]
-          }, {
-            name: '呼吸科',
-            count: 3,
-            // list: Array(...Array(33)).map((n, i) => {
-            //   return {name: '呼吸科设备', status: Math.random() > .5}
-            // }),
-            list: [
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
-              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-            ]
-          }, {
-            name: '放射科',
-            count: 4,
-            // list: Array(...Array(44)).map((n, i) => {
-            //   return {name: '放射科设备', status: Math.random() > .5}
-            // }),
-            list: [
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
-              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-            ]
-          }, {
-            name: '手术科',
-            count: 2,
-            // list: Array(...Array(22)).map((n, i) => {
-            //   return {name: '手术科设备', status: Math.random() > .5}
-            // }),
-            list: [
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
-              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-            ]
-          }, {
-            name: '急诊科',
-            count: 1,
-            // list: Array(...Array(22)).map((n, i) => {
-            //   return {name: '急诊科设备', status: Math.random() > .5}
-            // }),
-            list: [
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
-              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-            ]
-          }, {
-            name: '血液科',
-            count: 5,
-            // list: Array(...Array(5)).map((n, i) => {
-            //   return {name: '血液科设备', status: Math.random() > .5}
-            // }),
-            list: [
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
-              {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-              {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-              {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
-              {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
-            ]
-          }],
+          data: [],
+          // data: [{
+          //   name: '骨科',
+          //   count: 5,
+          //   // list: Array(...Array(55)).map((n, i) => {
+          //   //   return {name: '骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备骨科设备', status: Math.random() > .5}
+          //   // }),
+          //   list: [
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+          //     {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //     {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //   ]
+          // }, {
+          //   name: '呼吸科',
+          //   count: 3,
+          //   // list: Array(...Array(33)).map((n, i) => {
+          //   //   return {name: '呼吸科设备', status: Math.random() > .5}
+          //   // }),
+          //   list: [
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+          //     {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //     {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //   ]
+          // }, {
+          //   name: '放射科',
+          //   count: 4,
+          //   // list: Array(...Array(44)).map((n, i) => {
+          //   //   return {name: '放射科设备', status: Math.random() > .5}
+          //   // }),
+          //   list: [
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+          //     {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //     {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //   ]
+          // }, {
+          //   name: '手术科',
+          //   count: 2,
+          //   // list: Array(...Array(22)).map((n, i) => {
+          //   //   return {name: '手术科设备', status: Math.random() > .5}
+          //   // }),
+          //   list: [
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+          //     {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //     {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //   ]
+          // }, {
+          //   name: '急诊科',
+          //   count: 1,
+          //   // list: Array(...Array(22)).map((n, i) => {
+          //   //   return {name: '急诊科设备', status: Math.random() > .5}
+          //   // }),
+          //   list: [
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+          //     {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //     {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //   ]
+          // }, {
+          //   name: '血液科',
+          //   count: 5,
+          //   // list: Array(...Array(5)).map((n, i) => {
+          //   //   return {name: '血液科设备', status: Math.random() > .5}
+          //   // }),
+          //   list: [
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: true},
+          //     {name: '十二指肠内窥镜EW34-96	EW34-49	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //     {name: '十二指肠内窥镜EW34-96	Philips 781-296', status: true},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //     {name: '电子上消化道内窥镜 EG-530WR	Philips 781-296', status: false},
+          //     {name: '上呼吸道内窥镜EW34-49	Philips 781-296', status: false},
+          //   ]
+          // }],
           interval: null,
           activeIndex: 0,
           timing: null,
@@ -214,9 +215,9 @@
     computed: {},
     created() {
       this.getqueryOverview()
+      this.getRequestToday()
       this.getIncome()
       this.$nextTick(() => {
-        this.renderChart3()
       })
       this.autoSelectchart3()
     },
@@ -225,6 +226,39 @@
         queryOverview().then(res => {
           this.overview = res.Data;
           console.log(res);
+        })
+      },
+      getRequestToday() {
+        requestToday().then(res => {
+          console.log(res);
+          var data = res.Data;
+          var _list = [];
+          for(var i=0; i<data.length; i++){
+            var ret = _list.findIndex((val) => {
+              return val.name == data[i].DepartmentName;
+            })
+            if (ret == -1) {
+              _list.push({
+                name: data[i].DepartmentName,
+                count: 1,
+                list: [
+                  {
+                    name: data[i].SubjectName+' '+data[i].EquipmentOID+' '+data[i].DepartmentName,
+                    status: data[i].Status.ID>1?true:false
+                  }
+                ]
+              })
+            } else {
+              _list[ret].count += _list[ret].count;
+              _list[ret].list.push({
+                  name: data[i].SubjectName+' '+data[i].EquipmentOID+' '+data[i].DepartmentName,
+                  status: data[i].Status.ID>1?true:false
+              })
+            }
+          }
+          console.log(_list);
+          this.chart3.data = _list;
+          this.renderChart3()
         })
       },
       getIncome() {

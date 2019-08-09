@@ -88,7 +88,11 @@
             this.chart.value = (data.BootRate.Present * 10).toFixed(1) * 1
             this.chart.target = (data.BootRate.Default * 10).toFixed(1) * 1
             this.list.forEach(n => {
-              n.value = (data[n.key].Done / data[n.key].Plans).toFixed(2) * 100
+              if (data[n.key].Plans == 0) {
+                n.value = 0
+              } else {
+                n.value = (data[n.key].Done / data[n.key].Plans).toFixed(2) * 100
+              }
               n.processed = data[n.key].Done
               n.total = data[n.key].Plans
             })

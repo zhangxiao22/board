@@ -15,9 +15,9 @@
       <div class="li" v-for="(item,key) of mockList" :key="key">
         <span class="iconfont icon-jingbao"></span>
         <span class="text elip" title="飞利浦手术室撒似懂非懂萨法但是发的萨芬大沙发阿萨德防守打法的撒是大发生地方">
-            {{mockList[key]}}
+            {{item.content}}
             </span>
-        <span class="time">2019-01-01 11:11:11</span>
+        <span class="time">{{item.time}}</span>
       </div>
     </div>
   </div>
@@ -117,7 +117,12 @@
             n.count = res.Data[n.key].length
           })
           let event_list = res.Data[key].map(function (val) {
-            return val.DepartmentName+' '+val.EquipmentName+' '+val.RequestType.Name+' '+val.FaultType.Name+' '+val.FaultDesc;
+            var content = val.DepartmentName+' '+val.EquipmentName+' '+val.RequestType.Name+' '+val.FaultType.Name+' '+val.FaultDesc;
+            var time = val.RequestDate.split('T')[0]+' '+val.RequestDate.split('T')[1].split('.')[0];
+            return {
+              'content': content,
+              'time': time
+            }
           })
           this.mockList = event_list;
           console.log(event_list);

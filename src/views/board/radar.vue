@@ -7,12 +7,12 @@
           <div class="list-box1">
             <div class="list">
               <div class="total">
-                <div class="value">{{numberComma(2260.09)}}</div>
+                <div class="value">{{numberComma(income)}}</div>
                 <div class="text">总收入（万元）</div>
               </div>
               <div class="status up">
                 <div class="value">
-                  <span>23.45%</span>
+                  <span>{{rate1*100}}%</span>
                   <span class="iconfont icon-shang"></span>
                 </div>
                 <div class="text">
@@ -22,12 +22,12 @@
             </div>
             <div class="list">
               <div class="total">
-                <div class="value">{{numberComma(1563.09)}}</div>
+                <div class="value">{{numberComma(expense)}}</div>
                 <div class="text">总支出（万元）</div>
               </div>
               <div class="status down">
                 <div class="value">
-                  <span>23.45%</span>
+                  <span>{{rate2*100}}%</span>
                   <span class="iconfont icon-shang"></span>
                 </div>
                 <div class="text">
@@ -103,15 +103,22 @@
         currentData: {
           name: '',
         },
+        name1: '',
         chart1: {
           data: [],
         },
-
+        income: '',
+        incomeLast: '',
+        rate1:'',
+        rate2: '',
+        expense: '',
+        expenseLast: '',
         chart3: {
           data: [],
           list: [],
           chart: null,
-        }
+        },
+        maxCount: 0
         // list3: [],
 
       }
@@ -162,6 +169,10 @@
           // })
             equipments({id: this.id}).then(res => {
               this.chart1.data = res.Data.map((n, i) => {
+                this.income += n.Incomes;
+                this.expense += n.Expenses;
+                this.incomeLast += n.LastIncomes;
+                this.expenseLast += n.LastExpenses;
                 return Object.assign({}, n, {
                   name: n.Name + ' ' + n.Manufacturer.Name + '' + n.EquipmentCode + '?' + i,
                   '收入': n.Incomes,
@@ -175,6 +186,8 @@
                   status: n.EquipmentStatus.Name
                 })
               })
+              this.expenseLast==0?this.rate2=0:this.rate2=(this.expense-this.expenseLast)/this.expenseLast;
+              this.incomeLast==0?this.rate1=0:this.rate1=(this.income-this.incomeLast)/this.incomeLast;
           resolve()
           })
         })
@@ -192,6 +205,13 @@
             radar_data[2].value = res.Data.Inspection;
             radar_data[3].value = res.Data.OnSiteInspection;
             radar_data[4].value = res.Data.Correcting;
+            var max;
+            for(var i=0; i<radar_data.length; i++){
+              if (max<radar_data[i].value) {
+                max = radar_data[i].value
+              }
+            }
+            _this.maxCount = max;
             _this.chart3.list = radar_data;
             var _DataSet = DataSet,
               DataView = _DataSet.DataView;
@@ -207,13 +227,34 @@
           })
         })
       },
+      itemColor(type) {
+        switch (type) {
+          case 1:
+            return '#E64340';
+            break;
+          case 4:
+            return '#3eaf7c'
+            break;
+          default:
+            return '#f0f0f0'
+            break;
+        }
+      },
       getTimeline() {
-        // timeline().then(res => {
-        //   this.timelineTitle = res.equipment
-        //   this.timeline = res.timeline
-        // })
-        this.timelineTitle = TIMELINE.equipment;
-        this.timeline = TIMELINE.timeline;
+        timeline({id: this.currentData.ID}).then(res => {
+          console.log(res);
+          this.timelineTitle = res.Data.Name+' '+res.Data.EquipmentCode
+          var timelineEvent = res.Data.Dispatches.map((n, i) => {
+            return {
+              date: n.EndDate.split('T')[0],
+              event: n.RequestType.Name+' '+n.Request.OID+' '+n.DispatchReport.SolutionWay+' '+n.DispatchReport.SolutionUnsolvedComments,
+              color: this.itemColor(n.RequestType.ID)
+            }
+          });
+          this.timeline = timelineEvent
+        })
+        //this.timelineTitle = TIMELINE.equipment;
+        //this.timeline = TIMELINE.timeline;
       },
       renderChart1() {
         // let rem =
@@ -257,8 +298,8 @@
             // 辅助框
             chart.guide().regionFilter({
               top: true, // 指定 giude 是否绘制在 canvas 最上层，默认为 false, 即绘制在最下层
-              start: [dataIndex - .25, -data['收入']], // 辅助框起始位置，值为原始数据值，支持 callback
-              end: [dataIndex + .25, -data['支出']],// 辅助框结束位置，值为原始数据值，支持 callback
+              start: [dataIndex - .5, -data['收入']], // 辅助框起始位置，值为原始数据值，支持 callback
+              end: [dataIndex + .5, -data['支出']],// 辅助框结束位置，值为原始数据值，支持 callback
               color: '#E2340D',
             });
           }
@@ -376,7 +417,7 @@
         _this.chart3.chart.source(_this.chart3.data, {
           score: {
             min: 0,
-            max: 10
+            max: _this.maxCount
           }
         });
         _this.chart3.chart.coord('polar', {
