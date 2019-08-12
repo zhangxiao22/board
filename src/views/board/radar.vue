@@ -48,7 +48,7 @@
         </div>
         <div class="name-lower-box">
           <div class="name-lower">当前位置：{{currentData.department}}</div>
-          <div class="name-lower">安装日期：{{currentData.start_time}}</div>
+          <div class="name-lower">安装日期：{{currentData.start_time.split('T')[0]}}</div>
           <div class="name-lower">当前状态：{{currentData.status}}</div>
         </div>
 
@@ -102,6 +102,7 @@
         id: this.$route.query.id,
         currentData: {
           name: '',
+          start_time: ''
         },
         name1: '',
         chart1: {
